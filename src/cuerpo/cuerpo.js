@@ -5,6 +5,26 @@ import Hangouts from '../cuerpo/hangouts/Hangouts';
 import Filtros from '../filtros/Filtros';
 import CircularProgress from '@material-ui/core/CircularProgress';
 
+const initialStyle = {
+  height: '10em',
+  display: 'flex',
+  alignItems: 'center',
+  flexDirection: 'column',
+  justifyContent: 'center',
+  marginTop: '10%' 
+}
+
+const textStyle = {
+  textAlign: 'center',
+  width: '70%'
+}
+
+const divSelectorStyle = {
+    display: 'flex', 
+    flexDirection: 'row'
+}
+
+
 class Cuerpo extends React.Component {
     constructor(props) {
       super(props);
@@ -30,25 +50,39 @@ class Cuerpo extends React.Component {
     }
   
     render() {
-      let hangoutArea;
+      let cuerpo;
       if (this.state.hangouts == null) {
-        hangoutArea = <div class="col-md-9">
-                          <h3>Como obtener el archivo Hangouts.json</h3>Visita <a href="https://www.google.com/settings/takeout" target="_blank">Google Takeout</a> ,clickear "No seleccionar ninguno" y luego solo seleccionar la opción de Hangouts.
-                              Selecciona las opciones que desee, y luego de unos minutos recibirá un archivo zip con Hangouts.json dentro.
-                              Extraer el archivo y seleccionarlo desde "Cargar archivo". Tenga en cuenta que si el historial del chat es de gran tamaño podría demorar unos minutos su carga.
-                      </div>
+        cuerpo = 
+        <div style={initialStyle}>
+          <div>
+            <div style={divSelectorStyle}>
+                <SelectorArchivo onChange={this.handleSelectorOnChange}></SelectorArchivo>
+                {this.state.loadingFile && <CircularProgress style={{marginTop: '7px'}}color="primary" />}
+            </div>
+          </div>
+          
+          <div style={textStyle}>
+              <h3>Como obtener el archivo Hangouts.json</h3>Visita <a href="https://www.google.com/settings/takeout" target="_blank">Google Takeout</a>, clickear "No seleccionar ninguno" y luego solo seleccionar la opción de Hangouts.
+                  Selecciona las opciones que desee, y luego de unos minutos recibirá un archivo zip con Hangouts.json dentro.
+                  Extraer el archivo y seleccionarlo desde "Cargar archivo". Tenga en cuenta que si el historial del chat es de gran tamaño podría demorar unos minutos su carga.
+          </div>
+        </div>
       } else {
-        hangoutArea =  <Hangouts Hangouts={this.state.hangouts}></Hangouts>
-      }
-
-      return (
-        <div style={{paddingLeft: '20px'}}>
+        cuerpo =  
+          <div style={{paddingLeft: '20px'}}>
             <div style={{display: 'flex', flexDirection: 'row'}}>
               <SelectorArchivo onChange={this.handleSelectorOnChange}></SelectorArchivo>
               {this.state.loadingFile && <CircularProgress style={{marginTop: '7px'}}color="primary" />}
             </div>
             <Filtros></Filtros>
-            {hangoutArea}
+            <Hangouts Hangouts={this.state.hangouts}></Hangouts>
+          </div>
+          
+      }
+
+      return (
+        <div style={{paddingLeft: '20px'}}>
+            {cuerpo}
         </div>
       );
     }

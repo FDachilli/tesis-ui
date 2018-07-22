@@ -25,22 +25,36 @@ const theme = createMuiTheme({
   },
 });
 
+const appBarStyle = {
+   backgroundColor: "rgb(189, 68, 50)"
+};
+
+const logoStyle = {
+     widht: '50px', 
+     height: '50px', 
+     paddingRight: '10px'
+};
+
+const textStyle = {
+    color: "#F5F5F5"
+}
+
 class App extends Component {
 
   render() {
     return (
       <MuiThemeProvider theme={theme}>
           <div className="App">
-          <AppBar position="static" style={{backgroundColor: "rgb(189, 68, 50)"}}>
-            <Toolbar>
-              <img src={logo} alt="logo"  style={{widht: '50px', height: '50px', paddingRight: '10px'}}/>
-              <Typography variant="title" style={{color: "#F5F5F5"}}>
-                Inferencia de roles de usuario
-              </Typography>
-            </Toolbar>
-          </AppBar>
-          <Cuerpo></Cuerpo>
-          <Resultados></Resultados>
+            <AppBar position="static" style={appBarStyle}>
+              <Toolbar>
+                <img src={logo} alt="logo"  style={logoStyle}/>
+                <Typography variant="title" style={textStyle}>
+                  Inferencia de roles de usuario
+                </Typography>
+              </Toolbar>
+            </AppBar>
+            <Cuerpo></Cuerpo>
+            <Resultados></Resultados>
           </div>
       </MuiThemeProvider>
     );
