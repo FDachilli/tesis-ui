@@ -1,13 +1,8 @@
 import React from 'react';
-import PropTypes from 'prop-types';
-import { withStyles } from '@material-ui/core/styles';
 import Card from '@material-ui/core/Card';
-import CardActions from '@material-ui/core/CardActions';
 import CardContent from '@material-ui/core/CardContent';
-import CardMedia from '@material-ui/core/CardMedia';
-import Button from '@material-ui/core/Button';
 import Typography from '@material-ui/core/Typography';
-import './tarjeta-rol.css';
+import './TarjetaRol.css';
 
 
 class TarjetaRol extends React.Component {
@@ -24,7 +19,7 @@ class TarjetaRol extends React.Component {
             <div>
             <Card style={{
                     width: '275px',
-                    height: '100px',
+                    height: '110px',
                  }}>
                 <CardContent>
                     <Typography className=".title" color="textSecondary">
@@ -39,7 +34,7 @@ class TarjetaRol extends React.Component {
                         src={this.props.srcImage}
                         style={{widht: '50px', height: '50px', paddingRight:'5px', paddingTop: '5px'}}
                         />
-                        <Typography variant="headline" component="h2">
+                        <Typography variant="title" style={{paddingTop: '5px'}}>
                             {this.props.rol}
                         </Typography>
                     </div>

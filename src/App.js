@@ -3,17 +3,18 @@ import logo from './resources/logo.png';
 import './App.css';
 import {AppBar, Typography, Toolbar} from '@material-ui/core';
 import { createMuiTheme, MuiThemeProvider } from '@material-ui/core/styles';
-import TarjetaRol from './tarjeta-rol/tarjeta-rol';
-import Cuerpo from './cuerpo/cuerpo';
+
+import Cuerpo from './cuerpo/Cuerpo';
+import Resultados from './resultados/Resultados';
 
 
 const theme = createMuiTheme({
   palette: {
     primary: {
       light: '#ff7961',
-      main: '#f44336',
+      main: 'rgb(189, 68, 50)',
       dark: '#ba000d',
-      contrastText: '#000', 
+      contrastText: '#fff', 
     },
     secondary: {
       light: '#757ce8',
@@ -27,7 +28,6 @@ const theme = createMuiTheme({
 class App extends Component {
 
   render() {
-    const img = require('./resources/roles/cerebro.png');
     return (
       <MuiThemeProvider theme={theme}>
           <div className="App">
@@ -39,9 +39,8 @@ class App extends Component {
               </Typography>
             </Toolbar>
           </AppBar>
-         
-          <TarjetaRol rol="Investigador de recursos" name="Joaquin Colacci" srcImage={img}></TarjetaRol>
           <Cuerpo></Cuerpo>
+          <Resultados></Resultados>
           </div>
       </MuiThemeProvider>
     );
