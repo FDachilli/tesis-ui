@@ -10,7 +10,7 @@ import ListItemIcon from '@material-ui/core/ListItemIcon';
 import ListItemText from '@material-ui/core/ListItemText';
 
 const containerStyle = {
-      maxHeight: 200, 
+      maxHeight: 500, 
       width: 400, 
       overflow: 'auto'
 };
@@ -31,10 +31,9 @@ class ConversationsList extends React.Component {
     }
 
     render(){
-       
         const listItems = this.state.list_conversations.map((conversation) => 
          <div>
-          <Divider />
+          <Divider/>
           <ListItem button>
                   <ListItemText primary={conversation.participantes} onClick={()=>this.handleClickItem(conversation.id)}/>
           </ListItem>

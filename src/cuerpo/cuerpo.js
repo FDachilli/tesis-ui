@@ -14,6 +14,10 @@ const initialStyle = {
   marginTop: '10%' 
 }
 
+const withHangoutStyle = {
+  paddingLeft: '20px'
+}
+
 const textStyle = {
   textAlign: 'center',
   width: '70%'
@@ -22,6 +26,10 @@ const textStyle = {
 const divSelectorStyle = {
     display: 'flex', 
     flexDirection: 'row'
+}
+
+const hangoutsStyle = {
+  marginTop: '10px', 
 }
 
 
@@ -50,38 +58,31 @@ class Cuerpo extends React.Component {
     }
   
     render() {
+      let styleCuerpo;
       let cuerpo;
       if (this.state.hangouts == null) {
+        styleCuerpo = initialStyle;
         cuerpo = 
-        <div style={initialStyle}>
+            <div style={textStyle}>
+              <h3>Como obtener el archivo Hangouts.json</h3>Visita <a href="https://www.google.com/settings/takeout" target="_blank">Google Takeout</a>, clickear "No seleccionar ninguno" y luego solo seleccionar la opción de Hangouts.
+                  Luego presione "Crear Archivo" con las opciones predefinidas, y luego de unos minutos recibirá un archivo zip con Hangouts.json dentro.
+                  Extraer el archivo y seleccionarlo desde "Cargar archivo". Tenga en cuenta que si el historial del chat es de gran tamaño podría demorar unos minutos su carga.
+            </div>
+      } else {
+        styleCuerpo = withHangoutStyle;
+        cuerpo =  
           <div>
-            <div style={divSelectorStyle}>
+            <Filtros></Filtros>
+            <Hangouts style={hangoutsStyle} Hangouts={this.state.hangouts}></Hangouts>
+          </div>
+      }
+
+      return ( 
+        <div style={styleCuerpo}>
+           <div style={divSelectorStyle}>
                 <SelectorArchivo onChange={this.handleSelectorOnChange}></SelectorArchivo>
                 {this.state.loadingFile && <CircularProgress style={{marginTop: '7px'}}color="primary" />}
             </div>
-          </div>
-          
-          <div style={textStyle}>
-              <h3>Como obtener el archivo Hangouts.json</h3>Visita <a href="https://www.google.com/settings/takeout" target="_blank">Google Takeout</a>, clickear "No seleccionar ninguno" y luego solo seleccionar la opción de Hangouts.
-                  Selecciona las opciones que desee, y luego de unos minutos recibirá un archivo zip con Hangouts.json dentro.
-                  Extraer el archivo y seleccionarlo desde "Cargar archivo". Tenga en cuenta que si el historial del chat es de gran tamaño podría demorar unos minutos su carga.
-          </div>
-        </div>
-      } else {
-        cuerpo =  
-          <div style={{paddingLeft: '20px'}}>
-            <div style={{display: 'flex', flexDirection: 'row'}}>
-              <SelectorArchivo onChange={this.handleSelectorOnChange}></SelectorArchivo>
-              {this.state.loadingFile && <CircularProgress style={{marginTop: '7px'}}color="primary" />}
-            </div>
-            <Filtros></Filtros>
-            <Hangouts Hangouts={this.state.hangouts}></Hangouts>
-          </div>
-          
-      }
-
-      return (
-        <div style={{paddingLeft: '20px'}}>
             {cuerpo}
         </div>
       );
