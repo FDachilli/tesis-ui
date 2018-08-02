@@ -6,12 +6,11 @@ import Filtros from '../filtros/Filtros';
 import CircularProgress from '@material-ui/core/CircularProgress';
 
 const initialStyle = {
-  height: '10em',
   display: 'flex',
   alignItems: 'center',
   flexDirection: 'column',
   justifyContent: 'center',
-  marginTop: '10%' 
+  marginTop: '10vh' 
 }
 
 const withHangoutStyle = {
