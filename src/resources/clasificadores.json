@@ -1,0 +1,54 @@
+[
+{
+    "codigo": "BayesNet",
+    "descripcion": "Bayes Net"
+},
+{
+    "codigo": "DecisionTable",
+    "descripcion": "Decision Table"
+},
+{
+    "codigo": "IBk",
+    "descripcion": "IBk"
+},
+{
+    "codigo": "J48",
+    "descripcion": "J48"
+},
+{
+    "codigo": "JRip",
+    "descripcion": "JRip"
+},
+{
+    "codigo": "KStar",
+    "descripcion": "KStar"
+},
+{
+    "codigo": "LMT",
+    "descripcion": "LMT"
+},
+{
+    "codigo": "Multiclass",
+    "descripcion": "Multi Class"
+},
+{
+    "codigo": "NaiveBayes",
+    "descripcion": "Naive Bayes"
+},
+{
+    "codigo": "NaiveBayesMultinomialUpdateable",
+    "descripcion": "Naive Bayes Multinomial Updateable"
+},
+{
+    "codigo": "PART",
+    "descripcion": "PART"
+},
+{
+    "codigo": "REPTree",
+    "descripcion": "REPTree"
+},
+{
+    "codigo": "SMO",
+    "descripcion": "SMO"
+}
+]

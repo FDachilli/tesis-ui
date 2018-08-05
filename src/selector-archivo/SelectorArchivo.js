@@ -13,10 +13,7 @@ const styles = theme => ({
 
 
 class SelectorArchivo extends React.Component {
-    constructor(props) {
-        super(props);
-    }
-
+  
     render() {
         const { classes } = this.props;
         return (

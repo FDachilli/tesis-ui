@@ -1,9 +1,12 @@
-import React, { Component } from 'react';
-import InputLabel from '@material-ui/core/InputLabel';
+import React from 'react';
 import SelectorArchivo from '../selector-archivo/SelectorArchivo';
 import Hangouts from '../cuerpo/hangouts/Hangouts';
 import Filtros from '../filtros/Filtros';
 import CircularProgress from '@material-ui/core/CircularProgress';
+import LinearProgress from '@material-ui/core/LinearProgress';
+import Button from '@material-ui/core/Button';
+import cuerpoApi from './CuerpoAPI';
+import Resultados from '../resultados/Resultados';
 
 const initialStyle = {
   display: 'flex',
@@ -31,6 +34,15 @@ const hangoutsStyle = {
   marginTop: '10px', 
 }
 
+const divButStyle ={
+  float: 'right', 
+  marginTop:'30px', 
+  marginRight: '100px', 
+  display: 'flex', 
+  flexDirection: 'row'
+}
+
+
 
 class Cuerpo extends React.Component {
     constructor(props) {
@@ -38,10 +50,16 @@ class Cuerpo extends React.Component {
       this.state = {
         hangouts: null,
         loadingFile: false,
+        processing: false,
+        hangoutsConversations: {},
+        hangoutsCurrentConversation: null,
+        resultados: null
       };
       this.handleSelectorOnChange = this.handleSelectorOnChange.bind(this);
+      this.onClickProcesar = this.onClickProcesar.bind(this);
     }
 
+    //Eventos selector archivos
     handleSelectorOnChange(e) {
         this.setState({ loadingFile : true });
         const fileSelected = e.target.files[0];
@@ -53,12 +71,38 @@ class Cuerpo extends React.Component {
               this.setState({ hangouts : chats });
               this.setState({ loadingFile : false });
         }
-  
     }
+
+    //Eventos Hangouts
+    onClickProcesar(){
+      this.setState({ processing : true });
+      console.log(this.state)
+      fetch(cuerpoApi.predecirDirecto(this.state.hangoutsConversations[this.state.hangoutsCurrentConversation], 'J48'))
+        .then(result=>result.text())
+        .then((data) =>{
+          this.setState({resultados: data, processing: false}),
+          console.log(this.state)
+        } 
+        )
+
+    }
+
+    handleConversationsOnChange = event => {
+      console.log(event);
+      this.setState({hangoutsConversations: event})
+    }
+
+    handleCurrentConversationOnChange = event => {
+      console.log(event);
+      this.setState({hangoutsCurrentConversation: event})
+    }
+
+
   
     render() {
       let styleCuerpo;
       let cuerpo;
+      console.log(this.state)
       if (this.state.hangouts == null) {
         styleCuerpo = initialStyle;
         cuerpo = 
@@ -72,18 +116,37 @@ class Cuerpo extends React.Component {
         cuerpo =  
           <div>
             <Filtros></Filtros>
-            <Hangouts style={hangoutsStyle} Hangouts={this.state.hangouts}></Hangouts>
+            <Hangouts style={hangoutsStyle} 
+                      Hangouts={this.state.hangouts} 
+                      conversaciones={this.state.hangoutsConversations}
+                      onChangeConversations= {this.handleConversationsOnChange} 
+                      onChangeCurrentConversation= {this.handleCurrentConversationOnChange}>
+            </Hangouts>
           </div>
       }
-
+      let results = this.state.resultados != null ? <Resultados resultados={this.state.resultados}></Resultados> : null;
+      let fileProgress = this.state.loadingFile ? <CircularProgress style={{marginTop: '7px'}} color="primary"/> : null;
+      let processProgress = this.state.processing ? <LinearProgress color="secondary"/> : null
       return ( 
-        <div style={styleCuerpo}>
-           <div style={divSelectorStyle}>
-                <SelectorArchivo onChange={this.handleSelectorOnChange}></SelectorArchivo>
-                {this.state.loadingFile && <CircularProgress style={{marginTop: '7px'}}color="primary" />}
+            <div style={styleCuerpo}>
+              <div style={divSelectorStyle}>
+                    <SelectorArchivo onChange={this.handleSelectorOnChange}></SelectorArchivo>
+                    { fileProgress }
+                </div>
+                {cuerpo}
+                <div style={divSelectorStyle}>
+                    {processProgress}
+                    <div style={divButStyle}>
+                        {this.state.hangoutsCurrentConversation != null && <Button style={{marginRight: '10px'}} color="primary" onClick={this.onClickProcesar}>
+                                Procesar
+                        </Button>}
+                        {this.state.hangoutsCurrentConversation != null && <Button style={{ backgroundColor : 'rgb(189, 68, 50)', color: 'white'}} >
+                              Procesar Todo
+                        </Button>}
+                    </div>
+                </div>
+                {results}
             </div>
-            {cuerpo}
-        </div>
       );
     }
   }

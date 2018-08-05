@@ -3,11 +3,8 @@ import logo from './resources/logo.png';
 import './App.css';
 import {AppBar, Typography, Toolbar} from '@material-ui/core';
 import { createMuiTheme, MuiThemeProvider } from '@material-ui/core/styles';
-import Button from '@material-ui/core/Button';
 
 import Cuerpo from './cuerpo/Cuerpo';
-import Resultados from './resultados/Resultados';
-
 
 const theme = createMuiTheme({
   palette: {
@@ -42,13 +39,6 @@ const textStyle = {
 
 class App extends Component {
 
-  procesar(){
-    console.log("Entro al llamado");
-    fetch('http://localhost:8080/tesis-backend/rest/roles/mensajeHola')
-    .then(result=>result.text())
-    .then(data => console.log(data))
-  }
-
   render() {
     return (
       <MuiThemeProvider theme={theme}>
@@ -62,10 +52,6 @@ class App extends Component {
               </Toolbar>
             </AppBar>
             <Cuerpo></Cuerpo>
-            <Button color="primary" onClick={() => this.procesar()}>
-                Procesar
-            </Button>
-            <Resultados></Resultados>
           </div>
       </MuiThemeProvider>
     );

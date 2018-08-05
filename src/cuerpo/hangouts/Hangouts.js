@@ -1,11 +1,11 @@
-import React, { Component } from 'react';
+import React from 'react';
 import './Hangouts.css';
 import twemoji from 'twemoji';
 import ConversationsList from './conversations-list/ConversationsList';
 
 const divStyle = {
     display: 'flex', 
-    flexDirection: 'row'
+    flexDirection: 'row',
 }
 
 const textAreaStyle = {
@@ -13,8 +13,6 @@ const textAreaStyle = {
 }
 
 class Hangouts extends React.Component {
-
-  
 
     constructor(props) {
         super(props);
@@ -24,7 +22,6 @@ class Hangouts extends React.Component {
           participantes: [],
           text_conversation: ""
         }
-        this.textConversationChange = this.textConversationChange.bind(this);
         this.processData = this.processData.bind(this);
         this.switchConvo = this.switchConvo.bind(this);
     }
@@ -34,16 +31,6 @@ class Hangouts extends React.Component {
             if (this.state.Hangouts)
                 this.processData();
         }
-
-
-        textConversationChange (id) {
-            var text = "";
-            for(var event_id in this.Conversations[id]){
-                var convo_event = this.Conversations[id][event_id];
-                text = text.append(convo_event.msgtime + ": " + convo_event.sender + ": " + convo_event.message + "\n")
-            }
-            this.setState({ text_conversation : text });
-          };
 
         processData() {
             console.log("Process dataaaa")
@@ -137,25 +124,19 @@ class Hangouts extends React.Component {
                 all_conversations[id] = events;
             }
 
-            this.setState({conversaciones : all_conversations,
-                           participantes : list_participants_string});
-            console.log ("Conversaciones");
-            console.log (this.state.conversaciones);
-            console.log ("participantes");
-            console.log (this.state.participantes);
+            this.props.onChangeConversations(all_conversations);
+            this.setState({conversaciones: all_conversations})
+            this.setState({participantes : list_participants_string});
         }
 
         switchConvo(id){
-            //$('.txt').text('');
-            console.log ("Entro a cambiar texto")
             let text = "";
             for(var event_id in this.state.conversaciones[id]){
                 var convo_event = this.state.conversaciones[id][event_id];
                 text = text + convo_event.msgtime + ": " + convo_event.sender + ": " + convo_event.message + "\n";
-               // text.append(convo_event.msgtime + ": " + convo_event.sender + ": " + convo_event.message + "\n");
-            //    $('.txt').append(convo_event.msgtime + ": " + convo_event.sender + ": " + convo_event.message + "\n");
             }
             this.setState({text_conversation: text});
+            this.props.onChangeCurrentConversation(id);
         }
         
         zeroPad(string) {
@@ -175,17 +156,20 @@ class Hangouts extends React.Component {
         }
 
         render() {
+            console.log("Volvio a renderizar hangouts")
             return (
-                <div style={divStyle}>
+                <div>
+                  <div style={divStyle}>
                     <div>
                       {this.state.participantes.length > 0 && <ConversationsList list_conversations={this.state.participantes} onItemClick={this.switchConvo}></ConversationsList>}
                     </div>
                     <div style={textAreaStyle}>
                                 <textarea value={this.state.text_conversation} readOnly="true" style={{
-                                width: '900px',
-                                height: '500px',
+                                width: '1000px',
+                                height: '100%',
                                 }}/>
                     </div>
+                  </div>
 			    </div>
             );
           }
