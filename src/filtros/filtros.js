@@ -32,13 +32,13 @@ const widthClasificador = {
 class Filtros extends React.Component {
     constructor(props) {
         super(props);
-        this.handleChangeProcesamiento = this.handleChangeProcesamiento.bind(this);
+        /*this.handleChangeProcesamiento = this.handleChangeProcesamiento.bind(this);
         this.handleChangeClasificador = this.handleChangeClasificador.bind(this);
         this.handleChangeClasificador2 = this.handleChangeClasificador2.bind(this);
-        this.handleChangeClasificador3 = this.handleChangeClasificador3.bind(this);
+        this.handleChangeClasificador3 = this.handleChangeClasificador3.bind(this);*/
         this.state = {
             procesamiento: '',
-            clasificadores: jsonClasificadores,
+            clasificadores: jsonClasificadores.sort((a, b) => a.descripcion.localeCompare(b.descripcion)),
             clasificador: '',
             clasificador2: '',
             clasificador3: '',
@@ -46,32 +46,32 @@ class Filtros extends React.Component {
       }
 
   handleChangeProcesamiento = event => {
-    console.log(event.target.value);
     this.setState({ procesamiento : event.target.value });
-    console.log("STATE EN HANDLE")
-    console.log(this.state)
+    this.props.onChangeTipoProcesamiento(event.target.value);
+    this.setState({ clasificador : '' });
+    this.props.onChangeClasificador();
+    this.setState({ clasificador2 : '' });
+    this.props.onChangeClasificador2(null);
+    this.setState({ clasificador3 : '' });
+    this.props.onChangeClasificador3(null);
   };
 
   handleChangeClasificador = event => {
-    console.log(event.target.value);
     this.setState({ clasificador : event.target.value });
-    console.log(this.state)
+    this.props.onChangeClasificador(event.target.value);
 };
 
   handleChangeClasificador2 = event => {
-      console.log(event.target.value);
       this.setState({ clasificador2 : event.target.value });
-      console.log(this.state)
+      this.props.onChangeClasificador2(event.target.value);
   };
 
   handleChangeClasificador3 = event => {
-      console.log(event.target.value);
       this.setState({ clasificador3 : event.target.value });
-      console.log(this.state)
+      this.props.onChangeClasificador3(event.target.value);
   };
 
   render() {
-    console.log("STATE EN RENDER")
     console.log(this.state)
     const { classes } = this.props;
     const labelClasificador = this.state.procesamiento == 'fase' ? 'Fase 1' : 'Clasificador';
@@ -85,7 +85,7 @@ class Filtros extends React.Component {
                         value={this.state.clasificador2}
                         onChange={this.handleChangeClasificador2}
                         inputProps={{
-                            name: 'clasificadores-fase2',
+                            name: 'clasificador2',
                             id: 'clasificador2',
                         }}>
                         {this.state.clasificadores.map((clasificador) =>
@@ -102,7 +102,7 @@ class Filtros extends React.Component {
                         value={this.state.clasificador3}
                         onChange={this.handleChangeClasificador3}
                         inputProps={{
-                            name: 'clasificadores-fase3',
+                            name: 'clasificador3',
                             id: 'clasificador3',
                         }}>
                         {this.state.clasificadores.map((clasificador) =>
@@ -149,8 +149,40 @@ class Filtros extends React.Component {
                         )}
                 </Select>
             </FormControl>
-        
-        { clasificadores }
+            {this.state.procesamiento == 'fase' && <FormControl style={formControl}>
+                <InputLabel htmlFor="clasificador2">Fase 2</InputLabel>
+                <Select
+                        style= {{minWidth: '80px'}}
+                        value={this.state.clasificador2}
+                        onChange={this.handleChangeClasificador2}
+                        inputProps={{
+                            name: 'clasificador2',
+                            id: 'clasificador2',
+                        }}>
+                        {this.state.clasificadores.map((clasificador) =>
+                          <MenuItem key={clasificador.codigo} value={clasificador.codigo}>
+                            {clasificador.descripcion}
+                          </MenuItem>
+                        )}
+                </Select>
+            </FormControl>}
+            {this.state.procesamiento == 'fase' && <FormControl style={formControl}>
+                <InputLabel htmlFor="clasificador3">Fase 3</InputLabel>
+                <Select
+                        style= {{minWidth: '80px'}}
+                        value={this.state.clasificador3}
+                        onChange={this.handleChangeClasificador3}
+                        inputProps={{
+                            name: 'clasificador3',
+                            id: 'clasificador3',
+                        }}>
+                        {this.state.clasificadores.map((clasificador) =>
+                          <MenuItem key={clasificador.codigo} value={clasificador.codigo}>
+                            {clasificador.descripcion}
+                          </MenuItem>
+                        )}
+                </Select>
+            </FormControl>}
     </form>
     );
   }    

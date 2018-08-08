@@ -1,13 +1,5 @@
-.card {
-    width: 275;
-    height: 100;
+.TarjetaRol {
+    width: 300;
     display:flex; 
     flex-direction:row;
   }
-
-.title {
-    font-size: 14;
-  }
-.pos {
-    margin-bottom: 12;
-}

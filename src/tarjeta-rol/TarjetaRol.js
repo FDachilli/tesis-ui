@@ -4,6 +4,11 @@ import CardContent from '@material-ui/core/CardContent';
 import Typography from '@material-ui/core/Typography';
 import './TarjetaRol.css';
 
+const styleImage = {widht: '50px', 
+                    height: '50px', 
+                    paddingRight:'5px', 
+                    paddingTop: '5px',
+                    paddingBottom: '10px'}
 
 class TarjetaRol extends React.Component {
     constructor(props) {
@@ -25,16 +30,12 @@ class TarjetaRol extends React.Component {
                     <Typography className=".title" color="textSecondary">
                         Rol de usuario: {this.props.name}
                     </Typography>
-                    <div style={{
-                    width: '275px',
-                    height: '50px',
-                    display: 'flex', 
-                    flexDirection: 'row'}}>
+                    <div className="TarjetaRol" style={{margin: 'auto'}}>
                         <img 
                         src={this.props.srcImage}
-                        style={{widht: '50px', height: '50px', paddingRight:'5px', paddingTop: '5px'}}
+                        style={styleImage}
                         />
-                        <Typography variant="title" style={{paddingTop: '5px'}}>
+                        <Typography variant="title" style={{margin: 'auto'}}>
                             {this.props.rol}
                         </Typography>
                     </div>

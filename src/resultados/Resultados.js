@@ -15,15 +15,8 @@ const styleList = {
 
 class Resultados extends React.Component {
 
-    constructor(props) {
-      super(props);
-      this.state = {
-        resultados: this.props.resultados  
-      };
-    }
-
-    getListaResultados(){
-        var registros = this.state.resultados.split("@data")[1];
+    getListaResultados(resultados, tipoProcesamiento){
+        var registros = resultados.split("@data")[1];
         var lines = registros.split('\n');
         var retorno = [];
         for(var i = 0;i < lines.length;i++){
@@ -31,7 +24,7 @@ class Resultados extends React.Component {
                 var features = lines[i].split(",");
                 var rol = {
                   rol: features[0],
-                  name: features[1]
+                  name: tipoProcesamiento == 'directo' ? features[1] : features[2]
                 }
                 retorno.push(rol);
                }
@@ -41,7 +34,7 @@ class Resultados extends React.Component {
     }
   
     render() {
-      var listaRoles = this.getListaResultados();
+      var listaRoles = this.getListaResultados(this.props.resultados, this.props.tipoProcesamiento);
       console.log (listaRoles);
       const content = listaRoles.map((itemRol) =>
         <TarjetaRol rol={itemRol.rol.charAt(0).toUpperCase() + itemRol.rol.slice(1)} 
