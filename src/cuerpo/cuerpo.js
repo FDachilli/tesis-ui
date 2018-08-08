@@ -3,10 +3,10 @@ import SelectorArchivo from '../selector-archivo/SelectorArchivo';
 import Hangouts from '../cuerpo/hangouts/Hangouts';
 import Filtros from '../filtros/Filtros';
 import CircularProgress from '@material-ui/core/CircularProgress';
-import LinearProgress from '@material-ui/core/LinearProgress';
 import Button from '@material-ui/core/Button';
 import cuerpoApi from './CuerpoAPI';
 import Resultados from '../resultados/Resultados';
+import AlertDialog from '../common/alert-dialog/AlertDialog';
 import Fade from '@material-ui/core/Fade';
 
 const initialStyle = {
@@ -58,7 +58,10 @@ class Cuerpo extends React.Component {
         tipoProcesamiento: null,
         clasificador: null,
         clasificador2: null,
-        clasificador3: null
+        clasificador3: null,
+        openDialog: false,
+        titleDialog: "",
+        contentDialog: ""
       };
       this.handleSelectorOnChange = this.handleSelectorOnChange.bind(this);
       this.onClickProcesar = this.onClickProcesar.bind(this);
@@ -91,11 +94,27 @@ class Cuerpo extends React.Component {
          url = cuerpoApi.predecirFases(conversacion, this.state.clasificador, this.state.clasificador2, this.state.clasificador3);
       }
       fetch(url)
-        .then(result=>result.text())
+        .then((result)=>{
+          if (result.ok) {
+            return result.text();
+          } else {
+            this.setState({processing: false,
+                           titleDialog: "ERROR",
+                           contentDialog: "Se produjo un error al procesar",
+                           openDialog: true});
+            throw new Error('Something went wrong');
+          }
+        })
         .then((data) =>{
           const resultsAux = this.state.resultados;
           resultsAux[this.state.hangoutsCurrentConversation] = data;
           this.setState({resultados: resultsAux, processing: false})
+        })
+        .catch((error)=>{
+          this.setState({processing: false,
+            titleDialog: "ERROR",
+            contentDialog: "Se produjo un error al procesar",
+            openDialog: true});
         })
     }
 
@@ -112,9 +131,6 @@ class Cuerpo extends React.Component {
         .then(result=>result.text())
         .then((data) =>{
           this.setState({resultados: data, processing: false})
-        })
-        .catch((error)=>{
-          this.setState({processing: false})
         })
     }
 
@@ -150,6 +166,11 @@ class Cuerpo extends React.Component {
       console.log(event);
       this.setState({clasificador3: event})
     }
+
+    //Dialogo aviso events
+    handleCloseDialog = () => {
+      this.setState({ openDialog: false });
+    };
 
   
     render() {
@@ -209,6 +230,11 @@ class Cuerpo extends React.Component {
    
       return ( 
             <div style={styleCuerpo}>
+              <AlertDialog open={this.state.openDialog} 
+                           body={this.state.contentDialog} 
+                           title={this.state.titleDialog}
+                           closeDialog={this.handleCloseDialog}>
+              </AlertDialog>
               <div style={divSelectorStyle}>
                     <SelectorArchivo onChange={this.handleSelectorOnChange}></SelectorArchivo>
                     <Fade
