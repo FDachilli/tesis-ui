@@ -23,11 +23,10 @@ class TarjetaRol extends React.Component {
         return (
             <div>
             <Card style={{
-                    width: '275px',
-                    height: '110px',
+                    width: '275px'
                  }}>
                 <CardContent>
-                    <Typography className=".title" color="textSecondary">
+                    <Typography color="textSecondary">
                         Rol de usuario: {this.props.name}
                     </Typography>
                     <div className="TarjetaRol" style={{margin: 'auto'}}>

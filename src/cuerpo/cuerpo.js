@@ -7,7 +7,51 @@ import Button from '@material-ui/core/Button';
 import cuerpoApi from './CuerpoAPI';
 import Resultados from '../resultados/Resultados';
 import AlertDialog from '../common/alert-dialog/AlertDialog';
+import exportExcel from '../common/Export';
 import Fade from '@material-ui/core/Fade';
+import ReactExport from "react-data-export";
+
+const ExcelFile = ReactExport.ExcelFile;
+const ExcelSheet = ReactExport.ExcelFile.ExcelSheet;
+const ExcelColumn = ReactExport.ExcelFile.ExcelColumn;
+const multiDataSet = [
+  {
+      columns: ["Headings", "Text Style", "Colors"],
+      data: [
+          [
+              {value: "H1", style: {font: {sz: "24", bold: true}}},
+              {value: "Bold", style: {font: {bold: true}}},
+              {value: "Red", style: {fill: {patternType: "solid", fgColor: {rgb: "FFFF0000"}}}},
+          ],
+          [
+              {value: "H2", style: {font: {sz: "18", bold: true}}},
+              {value: "underline", style: {font: {underline: true}}},
+              {value: "Blue", style: {fill: {patternType: "solid", fgColor: {rgb: "FF0000FF"}}}},
+          ],
+          [
+              {value: "H3", style: {font: {sz: "14", bold: true}}},
+              {value: "italic", style: {font: {italic: true}}},
+              {value: "Green", style: {fill: {patternType: "solid", fgColor: {rgb: "FF00FF00"}}}},
+          ],
+          [
+              {value: "H4", style: {font: {sz: "12", bold: true}}},
+              {value: "strike", style: {font: {strike: true}}},
+              {value: "Orange", style: {fill: {patternType: "solid", fgColor: {rgb: "FFF86B00"}}}},
+          ],
+          [
+              {value: "H5", style: {font: {sz: "10.5", bold: true}}},
+              {value: "outline", style: {font: {outline: true}}},
+              {value: "Yellow", style: {fill: {patternType: "solid", fgColor: {rgb: "FFFFFF00"}}}},
+          ],
+          [
+              {value: "H6", style: {font: {sz: "7.5", bold: true}}},
+              {value: "shadow", style: {font: {shadow: true}}},
+              {value: "Light Blue", style: {fill: {patternType: "solid", fgColor: {rgb: "FFCCEEFF"}}}}
+          ]
+      ]
+  }
+];
+
 
 const initialStyle = {
   display: 'flex',
@@ -28,7 +72,12 @@ const textStyle = {
 
 const divSelectorStyle = {
     display: 'flex', 
-    flexDirection: 'row'
+    flexDirection: 'row',
+}
+
+const divFiltrosStyle = {
+  display: 'flex', 
+  flexDirection: 'row',
 }
 
 const hangoutsStyle = {
@@ -37,13 +86,23 @@ const hangoutsStyle = {
 
 const divButStyle ={
   float: 'right', 
-  marginTop:'30px', 
+  marginTop:'15px', 
   marginRight: '100px', 
   display: 'flex', 
   flexDirection: 'row'
 }
 
+const divButExpStyle ={
+  float: 'right', 
+  display: 'flex', 
+  flexDirection: 'row'
+}
 
+const imgExpStyle = {
+  heigth: '25%',
+  width: '25%',
+  marginLeft: '2px'
+}
 
 class Cuerpo extends React.Component {
     constructor(props) {
@@ -61,11 +120,14 @@ class Cuerpo extends React.Component {
         clasificador3: null,
         openDialog: false,
         titleDialog: "",
-        contentDialog: ""
+        contentDialog: "",
+        dataset: null
       };
       this.handleSelectorOnChange = this.handleSelectorOnChange.bind(this);
       this.onClickProcesar = this.onClickProcesar.bind(this);
-      this.onClickProcesarTodo = this.onClickProcesarTodo.bind(this);
+      this.onClickLimpiar = this.onClickLimpiar.bind(this);
+      //this.exportarAExcel = this.exportarAExcel.bind(this);
+      //this.onClickProcesarTodo = this.onClickProcesarTodo.bind(this);
     }
 
     //Eventos selector archivos
@@ -108,7 +170,10 @@ class Cuerpo extends React.Component {
         .then((data) =>{
           const resultsAux = this.state.resultados;
           resultsAux[this.state.hangoutsCurrentConversation] = data;
-          this.setState({resultados: resultsAux, processing: false})
+          this.setState({resultados: resultsAux, processing: false});
+          this.setState({dataset: exportExcel.exportarAExcelWithColumns(this.state.resultados, this.state.tipoProcesamiento)});
+          console.log(this.state.dataset)
+          console.log(multiDataSet)
         })
         .catch((error)=>{
           this.setState({processing: false,
@@ -116,6 +181,12 @@ class Cuerpo extends React.Component {
             contentDialog: "Se produjo un error al procesar",
             openDialog: true});
         })
+    }
+
+    onClickLimpiar(){
+      const resultsAux = this.state.resultados;
+      delete resultsAux[this.state.hangoutsCurrentConversation];
+      this.setState({resultados: resultsAux})
     }
 
     onClickProcesarTodo(){
@@ -172,6 +243,13 @@ class Cuerpo extends React.Component {
       this.setState({ openDialog: false });
     };
 
+
+    handleTerminoExportar = event => {
+      console.log(event);
+      this.setState({exportar: false})
+    }
+
+    
   
     render() {
       let styleCuerpo;
@@ -186,34 +264,49 @@ class Cuerpo extends React.Component {
             </div>
       } else {
         styleCuerpo = withHangoutStyle;
-        cuerpo =  
-          <div>
-            <div style={divSelectorStyle}>
-                <Filtros onChangeClasificador= {this.handleClasificadorOnChange} 
-                        onChangeClasificador2= {this.handleClasificador2OnChange} 
-                        onChangeClasificador3= {this.handleClasificador3OnChange}
-                        onChangeTipoProcesamiento= {this.handleTipoProcesamientoOnChange}
-                          >
-                </Filtros>
-                <Fade
-                    in={this.state.processing}
-                    style={{
-                      transitionDelay: this.state.processing ? '800ms' : '0ms',
-                    }}
-                    unmountOnExit
-                  >
-                  <CircularProgress style={{marginTop: '7px'}} color="primary"/> 
-                </Fade>
-            </div>
-            <Hangouts style={hangoutsStyle} 
-                      Hangouts={this.state.hangouts} 
-                      conversaciones={this.state.hangoutsConversations}
-                      onChangeConversations= {this.handleConversationsOnChange} 
-                      onChangeCurrentConversation= {this.handleCurrentConversationOnChange}>
-            </Hangouts>
+        cuerpo = 
+          <div> 
+            <div style={divFiltrosStyle}>
+                <div style={divFiltrosStyle}>
+                  <Filtros onChangeClasificador= {this.handleClasificadorOnChange} 
+                          onChangeClasificador2= {this.handleClasificador2OnChange} 
+                          onChangeClasificador3= {this.handleClasificador3OnChange}
+                          onChangeTipoProcesamiento= {this.handleTipoProcesamientoOnChange}
+                            >
+                  </Filtros>
+                  <Fade
+                      in={this.state.processing}
+                      style={{
+                        transitionDelay: this.state.processing ? '800ms' : '0ms',
+                      }}
+                      unmountOnExit
+                    >
+                    <CircularProgress style={{marginTop: '7px'}} color="primary"/> 
+                  </Fade>
+                </div>
+                {JSON.stringify(this.state.resultados) != JSON.stringify({}) && <div style={divButExpStyle}>
+
+                      <ExcelFile element={<Button variant="contained" style={{  width: '60px', backgroundColor : 'white', color: 'green'}}>
+                                            Exportar
+                                          <img style={imgExpStyle} src={require('../resources/excel.png')}/>
+                                          </Button>}>
+                        <ExcelSheet dataSet={this.state.dataset} name="Resultados prediccion de roles"/>
+                      </ExcelFile>
+                      <Button variant="contained" style={{  width: '50px', backgroundColor : 'white', color: 'blue', marginLeft:'3px'}}>
+                            Exportar
+                            <img style={imgExpStyle} src={require('../resources/arff.png')}/>
+                      </Button>
+                </div>}
+              </div>
+              <Hangouts style={hangoutsStyle} 
+                        Hangouts={this.state.hangouts} 
+                        conversaciones={this.state.hangoutsConversations}
+                        onChangeConversations= {this.handleConversationsOnChange} 
+                        onChangeCurrentConversation= {this.handleCurrentConversationOnChange}>
+              </Hangouts>
           </div>
       }
-      let results = this.state.resultados[this.state.hangoutsCurrentConversation] != null ? <Resultados resultados={this.state.resultados[this.state.hangoutsCurrentConversation]} 
+      let results = this.state.resultados[this.state.hangoutsCurrentConversation] != null ? <Resultados style={{marginBottom: '10px'}} resultados={this.state.resultados[this.state.hangoutsCurrentConversation]} 
                                                                 tipoProcesamiento={this.state.tipoProcesamiento}>
                                                     </Resultados> : null;
 
@@ -230,30 +323,36 @@ class Cuerpo extends React.Component {
    
       return ( 
             <div style={styleCuerpo}>
-              <AlertDialog open={this.state.openDialog} 
-                           body={this.state.contentDialog} 
-                           title={this.state.titleDialog}
-                           closeDialog={this.handleCloseDialog}>
-              </AlertDialog>
-              <div style={divSelectorStyle}>
-                    <SelectorArchivo onChange={this.handleSelectorOnChange}></SelectorArchivo>
-                    <Fade
-                      in={this.state.loadingFile}
-                      style={{
-                        transitionDelay: this.state.loadingFile ? '800ms' : '0ms',
-                      }}
-                      unmountOnExit
-                    >
-                      <CircularProgress style={{marginTop: '7px'}} color="primary"/> 
-                    </Fade>
-                     
+                <AlertDialog open={this.state.openDialog} 
+                            body={this.state.contentDialog} 
+                            title={this.state.titleDialog}
+                            closeDialog={this.handleCloseDialog}>
+                </AlertDialog>
+                <div style={divSelectorStyle}>
+                      <SelectorArchivo onChange={this.handleSelectorOnChange}></SelectorArchivo>
+                      <Fade
+                        in={this.state.loadingFile}
+                        style={{
+                          transitionDelay: this.state.loadingFile ? '800ms' : '0ms',
+                        }}
+                        unmountOnExit
+                      >
+                        <CircularProgress style={{marginTop: '7px'}} color="primary"/> 
+                      </Fade>
+                      
                 </div>
                 {cuerpo}
                 <div style={divButStyle}>                  
                     {this.state.hangoutsCurrentConversation != null && 
+                     this.state.resultados[this.state.hangoutsCurrentConversation] == null &&
                         <Button style={{marginRight: '10px'}} color="primary" onClick={this.onClickProcesar} disabled={!enableButtons} >
                             Procesar
                         </Button>}
+                      {this.state.resultados[this.state.hangoutsCurrentConversation] != null && 
+                      <Button style={{ backgroundColor : 'rgb(189, 68, 50)', color: 'white'}} 
+                              onClick={this.onClickLimpiar}>
+                          Limpiar Resultados
+                    </Button>}
                     {/*this.state.hangoutsCurrentConversation != null && 
                       <Button style={{ backgroundColor : 'rgb(189, 68, 50)', color: 'white'}} 
                               disabled={!enableButtons} onClick={this.onClickProcesarTodo}>
