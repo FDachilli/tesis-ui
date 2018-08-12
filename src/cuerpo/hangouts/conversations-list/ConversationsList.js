@@ -30,10 +30,10 @@ class ConversationsList extends React.Component {
     render(){
         const listItems = this.state.list_conversations.map((conversation) => 
          <div>
-          <Divider/>
           <ListItem button>
                   <ListItemText primary={conversation.participantes} onClick={()=>this.handleClickItem(conversation.id)}/>
           </ListItem>
+          <Divider/>
           </div>
         );
         return (

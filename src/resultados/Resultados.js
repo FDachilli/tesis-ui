@@ -1,51 +1,39 @@
 import React from 'react';
 import TarjetaRol from '../tarjeta-rol/TarjetaRol';
 
-class RolIndividuo {
-    constructor(rol, nombre) {
-      this.rol = rol;
-      this.nombre = nombre;
-    }
-  }
-
 const styleList = {
   width: '400px',
-  maxHeight: '600px'
+  maxHeight: '500px',
+  overflowY: 'auto'
 }
 
 class Resultados extends React.Component {
 
-    getListaResultados(resultados, tipoProcesamiento){
+    getListaResultados(resultados){
         var registros = resultados.split("@data")[1];
         var lines = registros.split('\n');
         var retorno = [];
-        for(var i = 0;i < lines.length;i++){
-            if (lines[i].length > 1){
-                var features = lines[i].split(",");
-                var rol = {
-                  rol: features[0],
-                  name: tipoProcesamiento == 'directo' ? features[1] : features[2]
-                }
-                retorno.push(rol);
-               }
+        for (let line of lines){
+          if (line.length > 0){
+            retorno.push(line)
+          }
         }
-        console.log(retorno);
         return retorno;
     }
   
     render() {
-      var listaRoles = this.getListaResultados(this.props.resultados, this.props.tipoProcesamiento);
-      console.log (listaRoles);
+      var listaRoles = this.getListaResultados(this.props.resultados);
       const content = listaRoles.map((itemRol) =>
-        <TarjetaRol rol={itemRol.rol.charAt(0).toUpperCase() + itemRol.rol.slice(1)} 
-                    name={itemRol.name.charAt(0)=="'" ? itemRol.name.slice(1, -1) : itemRol.name} 
-                    srcImage={require('../resources/roles/' + itemRol.rol + '.png')}>
+        <TarjetaRol resultado = {itemRol}
+                    tipoProcesamiento = {this.props.tipoProcesamiento}>
         </TarjetaRol>
       );
       return (
-        <div style={styleList}>
+        <div style={{marginTop: '20px'}}>
           <h2>Resultados</h2>
-          { content }
+          <div style={styleList}>
+            { content }
+          </div>
         </div>
       );
     }

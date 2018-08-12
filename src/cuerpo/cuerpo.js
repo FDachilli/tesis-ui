@@ -18,8 +18,7 @@ const initialStyle = {
   display: 'flex',
   alignItems: 'center',
   flexDirection: 'column',
-  justifyContent: 'center',
-  marginTop: '10vh' 
+  marginTop: '10vh'
 }
 
 const withHangoutStyle = {
@@ -244,7 +243,7 @@ class Cuerpo extends React.Component {
                     <CircularProgress style={{marginTop: '7px'}} color="primary"/> 
                   </Fade>
                 </div>
-                    {/*JSON.stringify(this.state.resultados) != JSON.stringify({}) && */}
+                    {JSON.stringify(this.state.resultados) != JSON.stringify({}) && 
                     <div style={divSelectorStyle}>
                         <div style={{width: '950px'}}></div>
                         <div style={divButExpStyle}>
@@ -259,7 +258,7 @@ class Cuerpo extends React.Component {
                                 <img style={imgExpStyle} src={require('../resources/arff.png')}/>
                           </Button>
                     </div>
-                </div>
+                </div>}
               </div>
               <Hangouts style={hangoutsStyle} 
                         Hangouts={this.state.hangouts} 
@@ -269,7 +268,7 @@ class Cuerpo extends React.Component {
               </Hangouts>
           </div>
       }
-      let results = this.state.resultados[this.state.hangoutsCurrentConversation] != null ? <Resultados style={{marginBottom: '10px'}} resultados={this.state.resultados[this.state.hangoutsCurrentConversation]} 
+      let results = this.state.resultados[this.state.hangoutsCurrentConversation] != null ? <Resultados resultados={this.state.resultados[this.state.hangoutsCurrentConversation]} 
                                                                 tipoProcesamiento={this.state.tipoProcesamiento}>
                                                     </Resultados> : null;
 
