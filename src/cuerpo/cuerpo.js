@@ -7,51 +7,12 @@ import Button from '@material-ui/core/Button';
 import cuerpoApi from './CuerpoAPI';
 import Resultados from '../resultados/Resultados';
 import AlertDialog from '../common/alert-dialog/AlertDialog';
-import exportExcel from '../common/Export';
+import exportResultados from '../common/Export';
 import Fade from '@material-ui/core/Fade';
 import ReactExport from "react-data-export";
 
 const ExcelFile = ReactExport.ExcelFile;
 const ExcelSheet = ReactExport.ExcelFile.ExcelSheet;
-const ExcelColumn = ReactExport.ExcelFile.ExcelColumn;
-const multiDataSet = [
-  {
-      columns: ["Headings", "Text Style", "Colors"],
-      data: [
-          [
-              {value: "H1", style: {font: {sz: "24", bold: true}}},
-              {value: "Bold", style: {font: {bold: true}}},
-              {value: "Red", style: {fill: {patternType: "solid", fgColor: {rgb: "FFFF0000"}}}},
-          ],
-          [
-              {value: "H2", style: {font: {sz: "18", bold: true}}},
-              {value: "underline", style: {font: {underline: true}}},
-              {value: "Blue", style: {fill: {patternType: "solid", fgColor: {rgb: "FF0000FF"}}}},
-          ],
-          [
-              {value: "H3", style: {font: {sz: "14", bold: true}}},
-              {value: "italic", style: {font: {italic: true}}},
-              {value: "Green", style: {fill: {patternType: "solid", fgColor: {rgb: "FF00FF00"}}}},
-          ],
-          [
-              {value: "H4", style: {font: {sz: "12", bold: true}}},
-              {value: "strike", style: {font: {strike: true}}},
-              {value: "Orange", style: {fill: {patternType: "solid", fgColor: {rgb: "FFF86B00"}}}},
-          ],
-          [
-              {value: "H5", style: {font: {sz: "10.5", bold: true}}},
-              {value: "outline", style: {font: {outline: true}}},
-              {value: "Yellow", style: {fill: {patternType: "solid", fgColor: {rgb: "FFFFFF00"}}}},
-          ],
-          [
-              {value: "H6", style: {font: {sz: "7.5", bold: true}}},
-              {value: "shadow", style: {font: {shadow: true}}},
-              {value: "Light Blue", style: {fill: {patternType: "solid", fgColor: {rgb: "FFCCEEFF"}}}}
-          ]
-      ]
-  }
-];
-
 
 const initialStyle = {
   display: 'flex',
@@ -93,15 +54,13 @@ const divButStyle ={
 }
 
 const divButExpStyle ={
-  float: 'right', 
-  display: 'flex', 
-  flexDirection: 'row'
+  marginTop: '20px',
 }
 
 const imgExpStyle = {
   heigth: '25%',
   width: '25%',
-  marginLeft: '2px'
+  margin: 'auto'
 }
 
 class Cuerpo extends React.Component {
@@ -126,8 +85,6 @@ class Cuerpo extends React.Component {
       this.handleSelectorOnChange = this.handleSelectorOnChange.bind(this);
       this.onClickProcesar = this.onClickProcesar.bind(this);
       this.onClickLimpiar = this.onClickLimpiar.bind(this);
-      //this.exportarAExcel = this.exportarAExcel.bind(this);
-      //this.onClickProcesarTodo = this.onClickProcesarTodo.bind(this);
     }
 
     //Eventos selector archivos
@@ -171,9 +128,8 @@ class Cuerpo extends React.Component {
           const resultsAux = this.state.resultados;
           resultsAux[this.state.hangoutsCurrentConversation] = data;
           this.setState({resultados: resultsAux, processing: false});
-          this.setState({dataset: exportExcel.exportarAExcelWithColumns(this.state.resultados, this.state.tipoProcesamiento)});
+          this.setState({dataset: exportResultados.exportarAExcelWithColumns(this.state.resultados, this.state.tipoProcesamiento)});
           console.log(this.state.dataset)
-          console.log(multiDataSet)
         })
         .catch((error)=>{
           this.setState({processing: false,
@@ -244,9 +200,13 @@ class Cuerpo extends React.Component {
     };
 
 
-    handleTerminoExportar = event => {
-      console.log(event);
-      this.setState({exportar: false})
+    exportToArff = () => {
+      var element = document.createElement("a");
+      let resultToExport = exportResultados.getArff(this.state.resultados);
+      var file = new Blob([resultToExport], {type: 'text/plain'});
+      element.href = URL.createObjectURL(file);
+      element.download = "resultados.arff";
+      element.click();
     }
 
     
@@ -284,19 +244,22 @@ class Cuerpo extends React.Component {
                     <CircularProgress style={{marginTop: '7px'}} color="primary"/> 
                   </Fade>
                 </div>
-                {JSON.stringify(this.state.resultados) != JSON.stringify({}) && <div style={divButExpStyle}>
-
-                      <ExcelFile element={<Button variant="contained" style={{  width: '60px', backgroundColor : 'white', color: 'green'}}>
-                                            Exportar
-                                          <img style={imgExpStyle} src={require('../resources/excel.png')}/>
-                                          </Button>}>
-                        <ExcelSheet dataSet={this.state.dataset} name="Resultados prediccion de roles"/>
-                      </ExcelFile>
-                      <Button variant="contained" style={{  width: '50px', backgroundColor : 'white', color: 'blue', marginLeft:'3px'}}>
-                            Exportar
-                            <img style={imgExpStyle} src={require('../resources/arff.png')}/>
-                      </Button>
-                </div>}
+                    {/*JSON.stringify(this.state.resultados) != JSON.stringify({}) && */}
+                    <div style={divSelectorStyle}>
+                        <div style={{width: '950px'}}></div>
+                        <div style={divButExpStyle}>
+                          <ExcelFile filename="resultados" element={<Button variant="contained" style={{margin: 'auto',width: '100px',backgroundColor : '#2e7d32', color: 'white'}}>
+                                                Exportar
+                                              <img style={imgExpStyle} src={require('../resources/excel.png')}/>
+                                              </Button>}>
+                            <ExcelSheet dataSet={this.state.dataset} name="Resultados prediccion de roles"/>
+                          </ExcelFile>
+                          <Button onClick={() => this.exportToArff()} style={{margin: 'auto',width: '100px',backgroundColor : '#01579b', color: 'white', marginLeft:'10px'}}>
+                                Exportar
+                                <img style={imgExpStyle} src={require('../resources/arff.png')}/>
+                          </Button>
+                    </div>
+                </div>
               </div>
               <Hangouts style={hangoutsStyle} 
                         Hangouts={this.state.hangouts} 

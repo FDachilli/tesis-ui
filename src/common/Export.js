@@ -104,96 +104,22 @@ export default {
         dataset["data"]=data;
         retorno.push(dataset);
         return retorno;
-     }
+     },
 
-
-
-
-    /*exportToExcel(data, tipoProcesamiento) {
-        //Tengo que setear cada fila como un arreglo asi me hace los saltos
-        let arrayExport=[];
-        //Agrego titulo
-        arrayExport.push(["Resultado de prediccion de Roles:"]);
-        //Agrego salto
-        arrayExport.push([]);
-        //Agrego fecha emision
-        let fecha_emision = "Fecha de emisión: " + moment().format('L') + ' ' + moment().format('LT');
-        arrayExport.push([fecha_emision]);
-        //Agrego salto
-        arrayExport.push([]);
-
-        //Agrego header de lista
-        if (tipoProcesamiento == 'Directo')
-            arrayExport.push(["Rol", "Nombre", "Rol Companeros", "Participacion Intro", "Participacion Desa", "Participacion Fin", "Dominante (SYMLOG)", "Sumiso (SYMLOG)", "Amistoso (SYMLOG)", "No-amistoso (SYMLOG)", "Tarea (SYMLOG)", "Socio-Emocional (SYMLOG)", "Participacion"]);
-        else
-            arrayExport.push(["Rol", "Tipo Rol", "Nombre", "Tipo Rol Companeros", "Rol Companeros", "Participacion Intro", "Participacion Desa", "Participacion Fin", "Dominante (SYMLOG)", "Sumiso (SYMLOG)", "Amistoso (SYMLOG)", "No-amistoso (SYMLOG)", "Tarea (SYMLOG)", "Socio-Emocional (SYMLOG)", "Participacion"]);
-        let arrayResultados=[];
-        for (let key in data) {
-            let resultados = data[key];
-            var registros = resultados.split("@data")[1];
-            var lines = registros.split('\n');
-            for(var i = 0;i < lines.length;i++){
-                if (lines[i].length > 1){
-                    var features = lines[i].split(",");
-                    if (tipoProcesamiento == 'Directo'){
-                        arrayResultados.push(features[0]);
-                        arrayResultados.push(features[1]);
-                        arrayResultados.push(features[2]);
-                        for (var j = 21; j < features.length; j++)
-                            arrayResultados.push(features[j]);
-                    }else{
-                        for (var j = 0; j <= 4; j++)
-                            arrayResultados.push(features[j]);
-                        for (j = 23; j <= features.length; j++)
-                        arrayResultados.push(features[j]);
-                    }
-                    
-                }
+     getArff(resultados){
+        let first = true;
+        let retorno = "";
+        for (let key in resultados) {
+            if (first){
+                retorno += resultados[key];
+                retorno += "\n";
+                first = false;
+            }else{
+                retorno += resultados[key].split("@data")[1];
+                retorno += "\n";
             }
         }
-        this.exportResultados(arrayExport);
-  },
-
-  exportResultados(data){
-      var ws = {};
-      var range = {s: {c:10000000, r:10000000}, e: {c:0, r:0 }};
-      for(var R = 0; R != data.length; ++R) {
-          for(var C = 0; C != data[R].length; ++C) {
-              if(range.s.r > R) range.s.r = R;
-              if(range.s.c > C) range.s.c = C;
-              if(range.e.r < R) range.e.r = R;
-              if(range.e.c < C) range.e.c = C;
-              var cell = {v: data[R][C],
-                    s: { font: {sz: 14, bold: true },
-                          aligment: {wrapText:true}
-              }
-        }
-              var cell_ref = XLSX.utils.encode_cell({c:C,r:R});
-              ws[cell_ref] = cell;
-             
-          
-      }    
+        return retorno;
     }
-      if(range.s.c < 10000000) ws['!ref'] = XLSX.utils.encode_range(range);
-      //Para definir los tamaños de las columnas (en pixeles)
-      var wscols = [
-        {wpx: 180},
-        {wpx: 90},
-        {wpx: 450},
-        {wpx: 80},
-        {wpx: 80},
-        {wpx: 90},
-        {wpx: 120},
-        {wpx: 500}, // "pixels"
-      ];
-      ws['!cols'] = wscols;
-     
-      const workBook = { SheetNames: ['Resultados Roles'], Sheets: {}, Props: {} };
-      workBook.Sheets['Resultados'] = ws;
-      console.log(ws);
-      // save to file 
-      XLSX.writeFile(workBook, 'Resultados–' + moment().format('L') +  EXCEL_EXTENSION, {
-        cellStyles: true
-      });
-  }*/
+
 }
