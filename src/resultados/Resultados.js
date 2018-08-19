@@ -9,8 +9,16 @@ const styleList = {
 
 class Resultados extends React.Component {
 
-    getListaResultados(resultados){
-        var registros = resultados.split("@data")[1];
+  constructor(props) {
+    super(props);
+    this.state = {
+      resultados: this.props.resultados,
+      tipoProcesamiento: this.props.tipoProcesamiento
+    };
+  }
+
+    getListaResultados(){
+        var registros = this.state.resultados.split("@data")[1];
         var lines = registros.split('\n');
         var retorno = [];
         for (let line of lines){
@@ -22,10 +30,10 @@ class Resultados extends React.Component {
     }
   
     render() {
-      var listaRoles = this.getListaResultados(this.props.resultados);
+      var listaRoles = this.getListaResultados();
       const content = listaRoles.map((itemRol) =>
         <TarjetaRol resultado = {itemRol}
-                    tipoProcesamiento = {this.props.tipoProcesamiento}>
+                    tipoProcesamiento = {this.state.tipoProcesamiento}>
         </TarjetaRol>
       );
       return (
