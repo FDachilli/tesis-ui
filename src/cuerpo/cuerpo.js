@@ -7,6 +7,7 @@ import Button from '@material-ui/core/Button';
 import cuerpoApi from './CuerpoAPI';
 import Resultados from '../resultados/Resultados';
 import AlertDialog from '../common/alert-dialog/AlertDialog';
+import DialogoArmarGrupo from '../grupos/dialogo-armar-grupo/DialogoArmarGrupo';
 import exportResultados from '../common/Export';
 import Fade from '@material-ui/core/Fade';
 import ReactExport from "react-data-export";
@@ -82,7 +83,8 @@ class Cuerpo extends React.Component {
         clasificador: null,
         clasificador2: null,
         clasificador3: null,
-        openDialog: false,
+        openAlertDialog: false,
+        openGruposDialog: false,
         titleDialog: "",
         contentDialog: "",
         dataset: null
@@ -125,7 +127,7 @@ class Cuerpo extends React.Component {
             this.setState({processing: false,
                            titleDialog: "ERROR",
                            contentDialog: "Se produjo un error al procesar",
-                           openDialog: true});
+                           openAlertDialog: true});
             throw new Error('Something went wrong');
           }
         })
@@ -140,7 +142,7 @@ class Cuerpo extends React.Component {
           this.setState({processing: false,
             titleDialog: "ERROR",
             contentDialog: "Se produjo un error al procesar",
-            openDialog: true});
+            openAlertDialog: true});
         })
     }
 
@@ -200,10 +202,48 @@ class Cuerpo extends React.Component {
     }
 
     //Dialogo aviso events
-    handleCloseDialog = () => {
-      this.setState({ openDialog: false });
+    handleCloseAlertDialog = () => {
+      this.setState({ openAlertDialog: false });
     };
 
+    handleOpenGrupoDialog = () => {
+      this.setState({ openGruposDialog: true });
+    };
+
+    handleCloseGrupoDialog = (event) => {
+      console.log(event);
+      this.setState({ openGruposDialog: false });
+      this.setState({ processing : true });
+      let rolParticipantes = this.getRolesParticipantesResultado();
+      console.log(rolParticipantes);
+    };
+
+    getRolesParticipantesResultado(){
+        let participantes=[];
+        for (let key in this.state.resultados) {
+            let res = this.state.resultados[key];
+            var registros = res.split("@data")[1];
+            var lines = registros.split('\n');
+            for (let line of lines){
+                let participante={};
+                if (line.length > 0){
+                    var features = line.split(",");
+                    if (this.state.tipoProcesamiento == "directo"){
+                      participante["rolPrincipal"]=features[0];
+                      participante["nombre"]=features[1];
+                      participante["rolSecundario"]=features[2];
+                    }else{
+                      participante["rolPrincipal"]=features[0];
+                      participante["nombre"]=features[2];
+                      participante["rolSecundario"]=features[4];
+                    }
+                participantes.push(participante);
+                  
+              }
+            }
+        }
+        return participantes;
+    }
 
     exportToArff = () => {
       var element = document.createElement("a");
@@ -252,9 +292,12 @@ class Cuerpo extends React.Component {
                     {JSON.stringify(this.state.resultados) != JSON.stringify({}) && 
                     <div style={divSelectorStyle}>
                       
-                        <div style={{width: '600px'}}></div>
+                        <div style={{width: '440px'}}></div>
                         <div style={divButExpStyle}>
-                          <ExcelFile filename="resultados" element={<Button variant="contained" style={{margin: 'auto',width: '100px',backgroundColor : '#2e7d32', color: 'white'}}>
+                          {/*Object.keys(this.state.resultados).length >= 3 && */}<Button onClick={() => this.handleOpenGrupoDialog()} style={{margin: 'auto',width: '150px',backgroundColor : 'rgb(189, 68, 50)', color: 'white'}}>
+                                Armar grupos
+                          </Button>
+                          <ExcelFile filename="resultados" element={<Button variant="contained" style={{margin: 'auto',width: '100px',backgroundColor : '#2e7d32', color: 'white', marginLeft:'10px'}}>
                                                 Exportar
                                               <img style={imgExpStyle} src={require('../resources/excel.png')}/>
                                               </Button>}>
@@ -292,11 +335,14 @@ class Cuerpo extends React.Component {
    
       return ( 
             <div style={styleCuerpo}>
-                <AlertDialog open={this.state.openDialog} 
+                <AlertDialog open={this.state.openAlertDialog} 
                             body={this.state.contentDialog} 
                             title={this.state.titleDialog}
-                            closeDialog={this.handleCloseDialog}>
+                            closeDialog={this.handleCloseAlertDialog}>
                 </AlertDialog>
+                <DialogoArmarGrupo open={this.state.openGruposDialog}
+                                  closeDialogArmarGrupo={this.handleCloseGrupoDialog}>
+                </DialogoArmarGrupo>
                 <div style={divSelectorStyle}>
                       <SelectorArchivo onChange={this.handleSelectorOnChange}></SelectorArchivo>
                       <Fade
