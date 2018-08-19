@@ -36,10 +36,6 @@
     "descripcion": "Naive Bayes"
 },
 {
-    "codigo": "NaiveBayesMultinomialUpdateable",
-    "descripcion": "Naive Bayes Multinomial Updateable"
-},
-{
     "codigo": "PART",
     "descripcion": "PART"
 },

@@ -125,6 +125,62 @@ class TarjetaRol extends React.Component {
                         </div>
                         :
                         <div>
+                            <div style={divStyle}>
+                                <label style={labelStyle}><strong>Tipo de Rol: </strong></label>
+                                {data.tipo_rol.charAt(0).toUpperCase() + data.tipo_rol.slice(1)}
+                            </div>
+                            <div style={divStyle}>
+                                <label style={labelStyle}><strong>Rol asignado por compañeros: </strong></label>
+                                {data.rol_companeros.charAt(0).toUpperCase() + data.rol_companeros.slice(1)}
+                            </div>
+                            <div style={divStyle}>
+                                <label style={labelStyle}><strong>Tipo de Rol asignado por compañeros: </strong></label>
+                                {data.tipo_rol_companeros.charAt(0).toUpperCase() + data.tipo_rol_companeros.slice(1)}
+                            </div>
+                            <div style={divStyle}>
+                                <label style={labelStyle}><strong>Mensajes en introducción: </strong></label>
+                                {data.horario1}
+                            </div>
+                            <div style={divStyle}>
+                                <label style={labelStyle}><strong>Mensajes en desarrollo: </strong></label>
+                                {data.horario2}
+                            </div>
+                            <div style={divStyle}>
+                                <label style={labelStyle}><strong>Mensajes en finalización: </strong></label>
+                                {data.horario3}
+                            </div>
+                        
+                            <div style={divStyle}>
+                                <label style={labelStyle}><strong>Dominante (SYMLOG): </strong></label>
+                                {data.dominante}
+                            </div>
+                            <div style={divStyle}>
+                                <label style={labelStyle}><strong>Sumiso (SYMLOG): </strong></label>
+                                {data.sumiso}
+                            </div>
+                        
+                            <div style={divStyle}>
+                                <label style={labelStyle}><strong>Amistoso (SYMLOG): </strong></label>
+                                {data.amistoso}
+                            </div>
+                            <div style={divStyle}>
+                                <label style={labelStyle}><strong>No amistoso (SYMLOG): </strong></label>
+                                {data.no_amistoso}
+                            </div>
+                        
+                            <div style={divStyle}>
+                                <label style={labelStyle}><strong>Tarea (SYMLOG): </strong></label>
+                                {data.tarea}
+                            </div>
+                            <div style={divStyle}>
+                                <label style={labelStyle}><strong>Socio emocional (SYMLOG): </strong></label>
+                                {data.socio_emocional}
+                            </div>
+                        
+                            <div style={divStyle}>
+                                <label style={labelStyle}><strong>Participación </strong></label>
+                                {data.participacion}
+                            </div>
                         </div>;
 
 

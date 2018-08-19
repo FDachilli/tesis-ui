@@ -35,9 +35,15 @@ const divSelectorStyle = {
     flexDirection: 'row',
 }
 
+const divContainerStyle = {
+  display: 'flex', 
+  flexDirection: 'row',
+}
+
 const divFiltrosStyle = {
   display: 'flex', 
   flexDirection: 'row',
+  width: '600px'
 }
 
 const hangoutsStyle = {
@@ -225,7 +231,7 @@ class Cuerpo extends React.Component {
         styleCuerpo = withHangoutStyle;
         cuerpo = 
           <div> 
-            <div style={divFiltrosStyle}>
+            <div style={divContainerStyle}>
                 <div style={divFiltrosStyle}>
                   <Filtros onChangeClasificador= {this.handleClasificadorOnChange} 
                           onChangeClasificador2= {this.handleClasificador2OnChange} 
@@ -245,7 +251,8 @@ class Cuerpo extends React.Component {
                 </div>
                     {JSON.stringify(this.state.resultados) != JSON.stringify({}) && 
                     <div style={divSelectorStyle}>
-                        <div style={{width: '950px'}}></div>
+                      
+                        <div style={{width: '600px'}}></div>
                         <div style={divButExpStyle}>
                           <ExcelFile filename="resultados" element={<Button variant="contained" style={{margin: 'auto',width: '100px',backgroundColor : '#2e7d32', color: 'white'}}>
                                                 Exportar
