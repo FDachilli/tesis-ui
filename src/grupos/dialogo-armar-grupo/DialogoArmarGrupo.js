@@ -38,11 +38,10 @@ class DialogoArmarGrupo extends React.Component {
              <Dialog
                     open={this.props.open}
                     aria-labelledby="form-dialog-title"
-                    style={{size: '300px'}}
              >
-                  <DialogTitle id="form-dialog-title">Armar grupos</DialogTitle>
+                  <DialogTitle id="form-dialog-title" color= 'rgb(189, 68, 50)'>Armar grupos</DialogTitle>
                   <DialogContent>
-                    <DialogContentText>
+                    <DialogContentText style={{marginBottom: '10px'}}>
                       Ingrese el tamaño del grupo.
                     </DialogContentText>
                     <InputLabel style={{marginTop: '15px', marginRight: '10px'}} htmlFor="tamano">Tamaño</InputLabel>
@@ -63,7 +62,7 @@ class DialogoArmarGrupo extends React.Component {
                     </Select>
                   </DialogContent>
                   <DialogActions>
-                    <Button onClick={this.handleArmarGrupo} color="primary">
+                    <Button onClick={this.handleArmarGrupo} color="primary" disabled={this.state.tamanio == ''}>
                       Armar grupos
                     </Button>
                     <Button onClick={this.handleClose} color="primary">

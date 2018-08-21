@@ -8,6 +8,7 @@ import cuerpoApi from './CuerpoAPI';
 import Resultados from '../resultados/Resultados';
 import AlertDialog from '../common/alert-dialog/AlertDialog';
 import DialogoArmarGrupo from '../grupos/dialogo-armar-grupo/DialogoArmarGrupo';
+import DialogoGrupos from '../grupos/Grupos';
 import exportResultados from '../common/Export';
 import Fade from '@material-ui/core/Fade';
 import ReactExport from "react-data-export";
@@ -85,6 +86,8 @@ class Cuerpo extends React.Component {
         clasificador3: null,
         openAlertDialog: false,
         openGruposDialog: false,
+        grupos: null,
+        openArmarGruposDialog: false,
         titleDialog: "",
         contentDialog: "",
         dataset: null
@@ -207,16 +210,29 @@ class Cuerpo extends React.Component {
     };
 
     handleOpenGrupoDialog = () => {
-      this.setState({ openGruposDialog: true });
+      this.setState({ openArmarGruposDialog: true });
     };
 
-    handleCloseGrupoDialog = (event) => {
+    handleCloseArmarGrupoDialog = (event) => {
       console.log(event);
-      this.setState({ openGruposDialog: false });
-      this.setState({ processing : true });
-      let rolParticipantes = this.getRolesParticipantesResultado();
-      console.log(rolParticipantes);
+      this.setState({ openArmarGruposDialog: false });
+      if (event){
+          this.setState({ processing : true });
+          let rolParticipantes = this.getRolesParticipantesResultado();
+          fetch(cuerpoApi.armarGrupos(rolParticipantes, event))
+          .then(result=>result.json())
+          .then((data) =>{
+            console.log(data)
+            this.setState({processing: false});
+            this.setState({grupos: data});
+            this.setState({openGruposDialog: true});
+          })
+      }
     };
+
+    handleCloseGruposDialog = () => {
+      this.setState({ openGruposDialog: false });
+    }
 
     getRolesParticipantesResultado(){
         let participantes=[];
@@ -294,9 +310,9 @@ class Cuerpo extends React.Component {
                       
                         <div style={{width: '440px'}}></div>
                         <div style={divButExpStyle}>
-                          {/*Object.keys(this.state.resultados).length >= 3 && */}<Button onClick={() => this.handleOpenGrupoDialog()} style={{margin: 'auto',width: '150px',backgroundColor : 'rgb(189, 68, 50)', color: 'white'}}>
+                          {Object.keys(this.state.resultados).length >= 3 && <Button onClick={() => this.handleOpenGrupoDialog()} style={{margin: 'auto',width: '150px',backgroundColor : 'rgb(189, 68, 50)', color: 'white'}}>
                                 Armar grupos
-                          </Button>
+                          </Button>}
                           <ExcelFile filename="resultados" element={<Button variant="contained" style={{margin: 'auto',width: '100px',backgroundColor : '#2e7d32', color: 'white', marginLeft:'10px'}}>
                                                 Exportar
                                               <img style={imgExpStyle} src={require('../resources/excel.png')}/>
@@ -340,9 +356,14 @@ class Cuerpo extends React.Component {
                             title={this.state.titleDialog}
                             closeDialog={this.handleCloseAlertDialog}>
                 </AlertDialog>
-                <DialogoArmarGrupo open={this.state.openGruposDialog}
-                                  closeDialogArmarGrupo={this.handleCloseGrupoDialog}>
+                <DialogoArmarGrupo open={this.state.openArmarGruposDialog}
+                                  closeDialogArmarGrupo={this.handleCloseArmarGrupoDialog}>
                 </DialogoArmarGrupo>
+                <DialogoGrupos open={this.state.openGruposDialog}
+                               closeDialogGrupos={this.handleCloseGruposDialog}
+                               grupos={this.state.grupos}>
+
+                </DialogoGrupos>
                 <div style={divSelectorStyle}>
                       <SelectorArchivo onChange={this.handleSelectorOnChange}></SelectorArchivo>
                       <Fade

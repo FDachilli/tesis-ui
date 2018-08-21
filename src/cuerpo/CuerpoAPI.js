@@ -10,6 +10,10 @@ export default {
         return `${urlService}predecirDirectoTotal?conversation=${encodeURIComponent(JSON.stringify(conversation))}&model=${classifier}`;
     },
 
+    armarGrupos(participantes, size){
+        return `${urlService}armarGrupos?participantes=${encodeURIComponent(JSON.stringify(participantes))}&size=${size}`;
+    },
+
     predecirFases(conversation, classifier, classifier2, classifier3){
         let models = {};
         models["model1"]= classifier;
