@@ -173,34 +173,34 @@ class Cuerpo extends React.Component {
 
     //Eventos Hangouts
     handleConversationsOnChange = event => {
-      console.log(event);
+      
       this.setState({hangoutsConversations: event})
     }
 
     handleCurrentConversationOnChange = event => {
-      console.log(event);
+      
       this.setState({hangoutsCurrentConversation: event})
     }
 
     //Eventos filtros
 
     handleTipoProcesamientoOnChange = event => {
-      console.log(event);
-      this.setState({tipoProcesamiento: event})
+      this.onClickLimpiar();
+      this.setState({tipoProcesamiento: event});
+
     }
 
     handleClasificadorOnChange = event => {
-      console.log(event);
       this.setState({clasificador: event})
     }
 
     handleClasificador2OnChange = event => {
-      console.log(event);
+      
       this.setState({clasificador2: event})
     }
 
     handleClasificador3OnChange = event => {
-      console.log(event);
+      
       this.setState({clasificador3: event})
     }
 
@@ -214,7 +214,7 @@ class Cuerpo extends React.Component {
     };
 
     handleCloseArmarGrupoDialog = (event) => {
-      console.log(event);
+      
       this.setState({ openArmarGruposDialog: false });
       if (event){
           this.setState({ processing : true });

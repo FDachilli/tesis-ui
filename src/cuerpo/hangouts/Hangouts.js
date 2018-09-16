@@ -33,13 +33,10 @@ class Hangouts extends React.Component {
         }
 
         processData() {
-            console.log("Process dataaaa")
             let all_participants = {};
             let all_conversations = {};
-            // First we want to get all participants, so we loop fully once
             for(let key in this.state.Hangouts['conversation_state']) {
                 var conversation = this.state.Hangouts['conversation_state'][key]['conversation_state']['conversation'];
-                // Get all participants
                 for(let person_key in conversation['participant_data']){
                     var person  = conversation['participant_data'][person_key];
                     var gaia_id = person['id']['gaia_id'];

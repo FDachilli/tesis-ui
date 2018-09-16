@@ -6,20 +6,6 @@ import DialogTitle from '@material-ui/core/DialogTitle';
 import DialogContent from '@material-ui/core/DialogContent';
 import DialogActions from '@material-ui/core/DialogActions';
 
-
-const styleList = {
-  maxHeight: '500px',
-  overflowY: 'auto'
-}
-
-const divButStyle ={
-    float: 'right', 
-    marginRight: '100px',
-    marginBottom: '10px', 
-    display: 'flex', 
-    flexDirection: 'row'
-}
-
 class DialogoGrupos extends React.Component {
 
   handleClose = () => {
