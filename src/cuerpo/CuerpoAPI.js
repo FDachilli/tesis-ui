@@ -1,4 +1,8 @@
-const urlService = "http://localhost:8080/tesis-backend/rest/roles/";
+//const urlService = "http://localhost:8080/tesis-backend/rest/roles/";
+
+//const urlService = "http://192.168.99.100:8080/tesis-backend/rest/roles/";
+
+const urlService = "http://rolesservice:8080/tesis-backend/rest/roles/";
 
 export default {
 
@@ -20,6 +24,16 @@ export default {
         models["model2"]= classifier2;
         models["model3"]= classifier3;
         return `${urlService}predecirFases?conversation=${encodeURIComponent(JSON.stringify(conversation))}&models=${encodeURIComponent(JSON.stringify(models))}`;
+    },
+
+    predecirFasesCompuesto(conversation, classifier, classifier2, classifier3, classifier4, classifier5){
+        let models = {};
+        models["model1"]= classifier;
+        models["model2"]= classifier2;
+        models["model3"]= classifier3;
+        models["model4"]= classifier4;
+        models["model5"]= classifier5;
+        return `${urlService}predecirFasesCompuesto?conversation=${encodeURIComponent(JSON.stringify(conversation))}&models=${encodeURIComponent(JSON.stringify(models))}`;
     },
 
     predecirFasesTotal(conversation, classifier, classifier2, classifier3){

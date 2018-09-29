@@ -84,6 +84,8 @@ class Cuerpo extends React.Component {
         clasificador: null,
         clasificador2: null,
         clasificador3: null,
+        clasificador4: null,
+        clasificador5: null,
         openAlertDialog: false,
         openGruposDialog: false,
         grupos: null,
@@ -119,11 +121,14 @@ class Cuerpo extends React.Component {
       let conversacion = this.state.hangoutsConversations[this.state.hangoutsCurrentConversation];
       if (this.state.tipoProcesamiento == 'directo'){
           url = cuerpoApi.predecirDirecto(conversacion, this.state.clasificador)
-      }else{
+      }else if (this.state.tipoProcesamiento == 'fase'){
          url = cuerpoApi.predecirFases(conversacion, this.state.clasificador, this.state.clasificador2, this.state.clasificador3);
+      }else{
+        url = cuerpoApi.predecirFasesCompuesto(conversacion, this.state.clasificador, this.state.clasificador2, this.state.clasificador3, this.state.clasificador4, this.state.clasificador5);
       }
       fetch(url)
         .then((result)=>{
+          console.log (result)
           if (result.ok) {
             return result.text();
           } else {
@@ -195,13 +200,19 @@ class Cuerpo extends React.Component {
     }
 
     handleClasificador2OnChange = event => {
-      
       this.setState({clasificador2: event})
     }
 
     handleClasificador3OnChange = event => {
-      
       this.setState({clasificador3: event})
+    }
+
+    handleClasificador4OnChange = event => {
+      this.setState({clasificador4: event})
+    }
+
+    handleClasificador5OnChange = event => {
+      this.setState({clasificador5: event})
     }
 
     //Dialogo aviso events
@@ -290,9 +301,11 @@ class Cuerpo extends React.Component {
             <div style={divContainerStyle}>
                 <div style={divFiltrosStyle}>
                   <Filtros onChangeClasificador= {this.handleClasificadorOnChange} 
-                          onChangeClasificador2= {this.handleClasificador2OnChange} 
-                          onChangeClasificador3= {this.handleClasificador3OnChange}
-                          onChangeTipoProcesamiento= {this.handleTipoProcesamientoOnChange}
+                           onChangeClasificador2= {this.handleClasificador2OnChange} 
+                           onChangeClasificador3= {this.handleClasificador3OnChange}
+                           onChangeClasificador4= {this.handleClasificador4OnChange} 
+                           onChangeClasificador5= {this.handleClasificador5OnChange} 
+                           onChangeTipoProcesamiento= {this.handleTipoProcesamientoOnChange}
                             >
                   </Filtros>
                   <Fade

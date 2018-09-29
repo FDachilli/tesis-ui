@@ -32,16 +32,14 @@ const widthClasificador = {
 class Filtros extends React.Component {
     constructor(props) {
         super(props);
-        /*this.handleChangeProcesamiento = this.handleChangeProcesamiento.bind(this);
-        this.handleChangeClasificador = this.handleChangeClasificador.bind(this);
-        this.handleChangeClasificador2 = this.handleChangeClasificador2.bind(this);
-        this.handleChangeClasificador3 = this.handleChangeClasificador3.bind(this);*/
         this.state = {
             procesamiento: '',
             clasificadores: jsonClasificadores.sort((a, b) => a.descripcion.localeCompare(b.descripcion)),
             clasificador: '',
             clasificador2: '',
             clasificador3: '',
+            clasificador4: '',
+            clasificador5: '',
           };
       }
 
@@ -54,6 +52,10 @@ class Filtros extends React.Component {
     this.props.onChangeClasificador2(null);
     this.setState({ clasificador3 : '' });
     this.props.onChangeClasificador3(null);
+    this.setState({ clasificador4 : '' });
+    this.props.onChangeClasificador4(null);
+    this.setState({ clasificador5 : '' });
+    this.props.onChangeClasificador5(null);
   };
 
   handleChangeClasificador = event => {
@@ -71,56 +73,27 @@ class Filtros extends React.Component {
       this.props.onChangeClasificador3(event.target.value);
   };
 
+  handleChangeClasificador4 = event => {
+    this.setState({ clasificador4 : event.target.value });
+    this.props.onChangeClasificador4(event.target.value);
+};
+
+handleChangeClasificador5 = event => {
+  this.setState({ clasificador5 : event.target.value });
+  this.props.onChangeClasificador5(event.target.value);
+};
+
   render() {
     console.log(this.state)
     const { classes } = this.props;
     const labelClasificador = this.state.procesamiento == 'fase' ? 'Fase 1' : 'Clasificador';
     const styleClas = this.state.procesamiento == 'fase' ? widthClasificadorF : widthClasificador;
-    const clasificadores = this.state.procesamiento == 'fase' 
-      ? <div>
-           <FormControl style={formControl}>
-                <InputLabel htmlFor="clasificador2">Fase 2</InputLabel>
-                <Select
-                        style= {{minWidth: '80px'}}
-                        value={this.state.clasificador2}
-                        onChange={this.handleChangeClasificador2}
-                        inputProps={{
-                            name: 'clasificador2',
-                            id: 'clasificador2',
-                        }}>
-                        {this.state.clasificadores.map((clasificador) =>
-                          <MenuItem key={clasificador.codigo} value={clasificador.codigo}>
-                            {clasificador.descripcion}
-                          </MenuItem>
-                        )}
-                </Select>
-            </FormControl>
-            <FormControl style={formControl}>
-                <InputLabel htmlFor="clasificador3">Fase 3</InputLabel>
-                <Select
-                        style= {{minWidth: '80px'}}
-                        value={this.state.clasificador3}
-                        onChange={this.handleChangeClasificador3}
-                        inputProps={{
-                            name: 'clasificador3',
-                            id: 'clasificador3',
-                        }}>
-                        {this.state.clasificadores.map((clasificador) =>
-                          <MenuItem key={clasificador.codigo} value={clasificador.codigo}>
-                            {clasificador.descripcion}
-                          </MenuItem>
-                        )}
-                </Select>
-            </FormControl>
-        </div>
-      : null;
-
     return (
       <form className={classes.root} autoComplete="off">
             <FormControl style={formControl}>
                 <InputLabel htmlFor="fases">Procesar</InputLabel>
                 <Select
-                    style= {{width: '100px'}}
+                    style= {{minWidth: '100px'}}
                     value={this.state.procesamiento}
                     onChange={this.handleChangeProcesamiento}
                     inputProps={{
@@ -130,6 +103,7 @@ class Filtros extends React.Component {
                 >
                     <MenuItem value='directo'>Directo</MenuItem>
                     <MenuItem value='fase'>Fases</MenuItem>
+                    <MenuItem value='faseCompuesto'>Fases Compuesto</MenuItem>
                 </Select>
           </FormControl>
           <FormControl style={formControl}>
@@ -149,7 +123,7 @@ class Filtros extends React.Component {
                         )}
                 </Select>
             </FormControl>
-            {this.state.procesamiento == 'fase' && <FormControl style={formControl}>
+            {(this.state.procesamiento == 'fase' || this.state.procesamiento == 'faseCompuesto') && <FormControl style={formControl}>
                 <InputLabel htmlFor="clasificador2">Fase 2</InputLabel>
                 <Select
                         style= {{minWidth: '80px'}}
@@ -166,23 +140,67 @@ class Filtros extends React.Component {
                         )}
                 </Select>
             </FormControl>}
-            {this.state.procesamiento == 'fase' && <FormControl style={formControl}>
-                <InputLabel htmlFor="clasificador3">Fase 3</InputLabel>
-                <Select
-                        style= {{minWidth: '80px'}}
-                        value={this.state.clasificador3}
-                        onChange={this.handleChangeClasificador3}
-                        inputProps={{
-                            name: 'clasificador3',
-                            id: 'clasificador3',
-                        }}>
-                        {this.state.clasificadores.map((clasificador) =>
-                          <MenuItem key={clasificador.codigo} value={clasificador.codigo}>
-                            {clasificador.descripcion}
-                          </MenuItem>
-                        )}
-                </Select>
-            </FormControl>}
+            {(this.state.procesamiento == 'fase' || this.state.procesamiento == 'faseCompuesto') && 
+              <div>
+                <FormControl style={formControl}>
+                    <InputLabel htmlFor="clasificador3">Fase 3</InputLabel>
+                    <Select
+                            style= {{minWidth: '80px'}}
+                            value={this.state.clasificador3}
+                            onChange={this.handleChangeClasificador3}
+                            inputProps={{
+                                name: 'clasificador3',
+                                id: 'clasificador3',
+                            }}>
+                            {this.state.clasificadores.map((clasificador) =>
+                              <MenuItem key={clasificador.codigo} value={clasificador.codigo}>
+                                {clasificador.descripcion}
+                              </MenuItem>
+                            )}
+                    </Select>
+                </FormControl>
+                {this.state.procesamiento == 'faseCompuesto' && 
+                    <div>
+                      <div>
+                          <FormControl style={formControl}>
+                            <Select
+                                style= {{minWidth: '80px'}}
+                                value={this.state.clasificador4}
+                                onChange={this.handleChangeClasificador4}
+                                inputProps={{
+                                    name: 'clasificador4',
+                                    id: 'clasificador4',
+                                }}>
+                                {this.state.clasificadores.map((clasificador) =>
+                                  <MenuItem key={clasificador.codigo} value={clasificador.codigo}>
+                                    {clasificador.descripcion}
+                                  </MenuItem>
+                                )}
+                            </Select>
+                          </FormControl>
+                      </div>
+                      <div>
+                          <FormControl style={formControl}>
+                            <Select
+                                    style= {{minWidth: '80px'}}
+                                    value={this.state.clasificador5}
+                                    onChange={this.handleChangeClasificador5}
+                                    inputProps={{
+                                        name: 'clasificador5',
+                                        id: 'clasificador5',
+                                    }}>
+                                    {this.state.clasificadores.map((clasificador) =>
+                                      <MenuItem key={clasificador.codigo} value={clasificador.codigo}>
+                                        {clasificador.descripcion}
+                                      </MenuItem>
+                                    )}
+                            </Select>
+                          </FormControl>
+                      </div>
+                    </div>
+                }
+              </div>
+            }
     </form>
     );
   }    
