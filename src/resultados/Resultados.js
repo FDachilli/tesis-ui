@@ -11,14 +11,10 @@ class Resultados extends React.Component {
 
   constructor(props) {
     super(props);
-    this.state = {
-      resultados: this.props.resultados,
-      tipoProcesamiento: this.props.tipoProcesamiento
-    };
   }
 
-    getListaResultados(){
-        var registros = this.state.resultados.split("@data")[1];
+    getListaResultados(resultados){
+        var registros = resultados.split("@data")[1];
         var lines = registros.split('\n');
         var retorno = [];
         for (let line of lines){
@@ -30,10 +26,10 @@ class Resultados extends React.Component {
     }
   
     render() {
-      var listaRoles = this.getListaResultados();
+      var listaRoles = this.getListaResultados(this.props.resultados);
       const content = listaRoles.map((itemRol) =>
         <TarjetaRol resultado = {itemRol}
-                    tipoProcesamiento = {this.state.tipoProcesamiento}>
+                    tipoProcesamiento = {this.props.tipoProcesamiento}>
         </TarjetaRol>
       );
       return (
