@@ -86,8 +86,8 @@ handleChangeClasificador5 = event => {
   render() {
     console.log(this.state)
     const { classes } = this.props;
-    const labelClasificador = this.state.procesamiento == 'fase' ? 'Fase 1' : 'Clasificador';
-    const styleClas = this.state.procesamiento == 'fase' ? widthClasificadorF : widthClasificador;
+    const labelClasificador = (this.state.procesamiento == 'fase' || this.state.procesamiento == 'faseCompuesto') ? 'Fase 1' : 'Clasificador';
+    const styleClas = (this.state.procesamiento == 'fase' || this.state.procesamiento == 'faseCompuesto') ? widthClasificadorF : widthClasificador;
     return (
       <form className={classes.root} autoComplete="off">
             <FormControl style={formControl}>
