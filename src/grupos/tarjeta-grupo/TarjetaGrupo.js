@@ -36,7 +36,7 @@ class TarjetaGrupo extends React.Component {
       getIntegrantes(integrantes){
           let stringIntegrantes = "";
           for (let integrante of integrantes){
-                stringIntegrantes += integrante.nombre.charAt(0)=="'" ? integrante.nombre.slice(1, -1) : integrante.nombre;
+                stringIntegrantes += integrante.nombre.charAt(0)==="'" ? integrante.nombre.slice(1, -1) : integrante.nombre;
                 stringIntegrantes += " (" + integrante.rolPrincipal +", "+ integrante.rolSecundario +  ")";
                 stringIntegrantes += ", ";
           }
@@ -66,7 +66,7 @@ class TarjetaGrupo extends React.Component {
                         <label style={labelStyle}><strong>Integrantes: </strong></label>
                         {integrantes}
                     </div>
-                    {rolesFaltantes != '.' && <div style={divStyle}>
+                    {rolesFaltantes !== '.' && <div style={divStyle}>
                         <label style={labelRolesStyle}><strong>Roles faltantes: </strong></label>
                         <p style={textRolesStyle}>{rolesFaltantes}</p>
                     </div>}

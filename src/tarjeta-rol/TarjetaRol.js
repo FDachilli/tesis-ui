@@ -31,7 +31,7 @@ class TarjetaRol extends React.Component {
       getData(resultado, tipoProcesamiento){
         var resjson = {};
         var features = resultado.split(",");
-        if (tipoProcesamiento == "directo"){
+        if (tipoProcesamiento === "directo"){
             resjson["rol"]=features[0];
             resjson["nombre"]=features[1];
             resjson["rol_companeros"]=features[2];
@@ -71,7 +71,7 @@ class TarjetaRol extends React.Component {
 
       render() {
         let data = this.getData(this.props.resultado, this.props.tipoProcesamiento);
-        let cuerpo = this.props.tipoProcesamiento == "directo" ? 
+        let cuerpo = this.props.tipoProcesamiento === "directo" ? 
                         <div>
                             <div style={divStyle}>
                                 <label style={labelStyle}><strong>Rol asignado por compañeros: </strong></label>
@@ -191,7 +191,7 @@ class TarjetaRol extends React.Component {
             {data && <Card style={cardStyle} onClick={this.handleCardClick}>
                 <CardHeader avatar={
                     <Avatar aria-label="Recipe" src={require('../resources/roles/' + data.rol + '.png')}/>}
-                    title= {data.nombre.charAt(0)=="'" ? data.nombre.slice(1, -1) : data.nombre}
+                    title= {data.nombre.charAt(0)==="'" ? data.nombre.slice(1, -1) : data.nombre}
                     subheader={data.rol.charAt(0).toUpperCase() + data.rol.slice(1)}/>
                 <Divider/>                
                 {this.state.open && 

@@ -9,11 +9,7 @@ const styleList = {
 
 class Resultados extends React.Component {
 
-  constructor(props) {
-    super(props);
-  }
-
-    getListaResultados(resultados){
+     getListaResultados(resultados){
         var registros = resultados.split("@data")[1];
         var lines = registros.split('\n');
         var retorno = [];

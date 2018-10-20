@@ -119,9 +119,9 @@ class Cuerpo extends React.Component {
       this.setState({ processing : true });
       let url = null;
       let conversacion = this.state.hangoutsConversations[this.state.hangoutsCurrentConversation];
-      if (this.state.tipoProcesamiento == 'directo'){
+      if (this.state.tipoProcesamiento === 'directo'){
           url = cuerpoApi.predecirDirecto(conversacion, this.state.clasificador)
-      }else if (this.state.tipoProcesamiento == 'fase'){
+      }else if (this.state.tipoProcesamiento === 'fase'){
          url = cuerpoApi.predecirFases(conversacion, this.state.clasificador, this.state.clasificador2, this.state.clasificador3);
       }else{
         url = cuerpoApi.predecirFasesCompuesto(conversacion, this.state.clasificador, this.state.clasificador2, this.state.clasificador3, this.state.clasificador4, this.state.clasificador5);
@@ -164,7 +164,7 @@ class Cuerpo extends React.Component {
       this.setState({ processing : true });
       let url = null;
       let conversacion = this.state.hangouts;
-      if (this.state.tipoProcesamiento == 'directo'){
+      if (this.state.tipoProcesamiento === 'directo'){
           url = cuerpoApi.predecirDirectoTotal(conversacion, this.state.clasificador)
       }else{
          url = cuerpoApi.predecirFasesTotal(conversacion,  this.state.clasificador, this.state.clasificador2, this.state.clasificador3);
@@ -255,7 +255,7 @@ class Cuerpo extends React.Component {
                 let participante={};
                 if (line.length > 0){
                     var features = line.split(",");
-                    if (this.state.tipoProcesamiento == "directo"){
+                    if (this.state.tipoProcesamiento === "directo"){
                       participante["rolPrincipal"]=features[0];
                       participante["nombre"]=features[1];
                       participante["rolSecundario"]=features[2];
@@ -290,7 +290,7 @@ class Cuerpo extends React.Component {
         styleCuerpo = initialStyle;
         cuerpo = 
             <div style={textStyle}>
-              <h3>Como obtener el archivo Hangouts.json</h3>Visita <a href="https://www.google.com/settings/takeout" target="_blank">Google Takeout</a>, clickear "No seleccionar ninguno" y luego solo seleccionar la opción de Hangouts.
+              <h3>Como obtener el archivo Hangouts.json</h3>Visita <a href="https://www.google.com/settings/takeout" target="_blank" rel="noopener noreferrer"> Google Takeout</a>, clickear "No seleccionar ninguno" y luego solo seleccionar la opción de Hangouts.
                   Luego presione "Crear Archivo" con las opciones predefinidas, y luego de unos minutos recibirá un archivo zip con Hangouts.json dentro.
                   Extraer el archivo y seleccionarlo desde "Cargar archivo". Tenga en cuenta que si el historial del chat es de gran tamaño podría demorar unos minutos su carga.
             </div>
@@ -318,7 +318,7 @@ class Cuerpo extends React.Component {
                     <CircularProgress style={{marginTop: '7px'}} color="primary"/> 
                   </Fade>
                 </div>
-                    {JSON.stringify(this.state.resultados) != JSON.stringify({}) && 
+                    {JSON.stringify(this.state.resultados) !== JSON.stringify({}) && 
                     <div style={divSelectorStyle}>
                       
                         <div style={{width: '440px'}}></div>
@@ -328,13 +328,13 @@ class Cuerpo extends React.Component {
                           </Button>}
                           <ExcelFile filename="resultados" element={<Button variant="contained" style={{margin: 'auto',width: '100px',backgroundColor : '#2e7d32', color: 'white', marginLeft:'10px'}}>
                                                 Exportar
-                                              <img style={imgExpStyle} src={require('../resources/excel.png')}/>
+                                              <img style={imgExpStyle} alt="excel" src={require('../resources/excel.png')}/>
                                               </Button>}>
                             <ExcelSheet dataSet={this.state.dataset} name="Resultados prediccion de roles"/>
                           </ExcelFile>
                           <Button onClick={() => this.exportToArff()} style={{margin: 'auto',width: '100px',backgroundColor : '#01579b', color: 'white', marginLeft:'10px'}}>
                                 Exportar
-                                <img style={imgExpStyle} src={require('../resources/arff.png')}/>
+                                <img style={imgExpStyle} alt="arff" src={require('../resources/arff.png')}/>
                           </Button>
                     </div>
                 </div>}
@@ -352,7 +352,7 @@ class Cuerpo extends React.Component {
                                                     </Resultados> : null;
 
       let enableButtons = false;
-      if (this.state.tipoProcesamiento == 'directo'){
+      if (this.state.tipoProcesamiento === 'directo'){
           if (this.state.clasificador != null){
             enableButtons = true
           }

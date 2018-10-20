@@ -10,7 +10,7 @@ export default {
                 let resjson={};
                 if (lines[i].length > 1){
                     var features = lines[i].split(",");
-                    if (tipoProcesamiento == "directo"){
+                    if (tipoProcesamiento === "directo"){
                         resjson["rol"]=features[0];
                         resjson["nombre"]=features[1];
                         resjson["rol_companeros"]=features[2];
@@ -52,7 +52,7 @@ export default {
         let data=[];
         let retorno = [];
         let columns=[];
-        if (tipoProcesamiento == "directo"){
+        if (tipoProcesamiento === "directo"){
             columns = ["Rol", "Nombre", "Rol Companeros", "Participacion Intro", "Participacion Desa", "Participacion Fin", "Dominante (SYMLOG)", "Sumiso (SYMLOG)", "Amistoso (SYMLOG)", "No-amistoso (SYMLOG)", "Tarea (SYMLOG)", "Socio-Emocional (SYMLOG)", "Participacion"]
         }else{
             columns = ["Rol", "Tipo Rol", "Nombre", "Tipo Rol Companeros", "Rol Companeros", "Participacion Intro", "Participacion Desa", "Participacion Fin", "Dominante (SYMLOG)", "Sumiso (SYMLOG)", "Amistoso (SYMLOG)", "No-amistoso (SYMLOG)", "Tarea (SYMLOG)", "Socio-Emocional (SYMLOG)", "Participacion"]
@@ -65,7 +65,7 @@ export default {
                 let dataSubArray=[];
                 if (lines[i].length > 1){
                     var features = lines[i].split(",");
-                    if (tipoProcesamiento == "directo"){
+                    if (tipoProcesamiento === "directo"){
                         let resjson={};
                         resjson["value"]=features[0];
                         dataSubArray.push(resjson);
@@ -82,7 +82,7 @@ export default {
                         }
                     }else{
                         let resjson;
-                        for (var j = 0; j <= 4; j++){
+                        for (j = 0; j <= 4; j++){
                             resjson={};
                             resjson["value"]=features[j];
                             dataSubArray.push(resjson);

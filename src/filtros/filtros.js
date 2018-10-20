@@ -86,8 +86,8 @@ handleChangeClasificador5 = event => {
   render() {
     console.log(this.state)
     const { classes } = this.props;
-    const labelClasificador = (this.state.procesamiento == 'fase' || this.state.procesamiento == 'faseCompuesto') ? 'Fase 1' : 'Clasificador';
-    const styleClas = (this.state.procesamiento == 'fase' || this.state.procesamiento == 'faseCompuesto') ? widthClasificadorF : widthClasificador;
+    const labelClasificador = (this.state.procesamiento === 'fase' || this.state.procesamiento === 'faseCompuesto') ? 'Fase 1' : 'Clasificador';
+    const styleClas = (this.state.procesamiento === 'fase' || this.state.procesamiento === 'faseCompuesto') ? widthClasificadorF : widthClasificador;
     return (
       <form className={classes.root} autoComplete="off">
             <FormControl style={formControl}>
@@ -123,7 +123,7 @@ handleChangeClasificador5 = event => {
                         )}
                 </Select>
             </FormControl>
-            {(this.state.procesamiento == 'fase' || this.state.procesamiento == 'faseCompuesto') && <FormControl style={formControl}>
+            {(this.state.procesamiento === 'fase' || this.state.procesamiento === 'faseCompuesto') && <FormControl style={formControl}>
                 <InputLabel htmlFor="clasificador2">Fase 2</InputLabel>
                 <Select
                         style= {{minWidth: '80px'}}
@@ -140,7 +140,7 @@ handleChangeClasificador5 = event => {
                         )}
                 </Select>
             </FormControl>}
-            {(this.state.procesamiento == 'fase' || this.state.procesamiento == 'faseCompuesto') && 
+            {(this.state.procesamiento === 'fase' || this.state.procesamiento === 'faseCompuesto') && 
               <div>
                 <FormControl style={formControl}>
                     <InputLabel htmlFor="clasificador3">Fase 3</InputLabel>
@@ -159,7 +159,7 @@ handleChangeClasificador5 = event => {
                             )}
                     </Select>
                 </FormControl>
-                {this.state.procesamiento == 'faseCompuesto' && 
+                {this.state.procesamiento === 'faseCompuesto' && 
                     <div>
                       <div>
                           <FormControl style={formControl}>

@@ -1,8 +1,7 @@
-//const urlService = "http://localhost:8080/tesis-backend/rest/roles/";
+const urlService = "http://localhost:8080/tesis-backend/rest/roles/";
 
 //const urlService = "http://192.168.99.100:8080/tesis-backend/rest/roles/";
 
-const urlService = "http://rolesservice:8080/tesis-backend/rest/roles/";
 
 export default {
 

@@ -28,7 +28,7 @@ class DialogoGrupos extends React.Component {
         stringExport += "Grupo " + contador + ": \n"; 
         let stringIntegrantes = "";
         for (let integrante of grupo.integrantes){
-            stringIntegrantes += integrante.nombre.charAt(0)=="'" ? integrante.nombre.slice(1, -1) : integrante.nombre;
+            stringIntegrantes += integrante.nombre.charAt(0)==="'" ? integrante.nombre.slice(1, -1) : integrante.nombre;
             stringIntegrantes += " (" + integrante.rolPrincipal +", "+ integrante.rolSecundario +  ")";
             stringIntegrantes += ", ";
         }
@@ -41,7 +41,7 @@ class DialogoGrupos extends React.Component {
         }
         stringRolesFaltantes = stringRolesFaltantes.substring(0, stringRolesFaltantes.length - 2);
         stringRolesFaltantes += ".";
-        if (stringRolesFaltantes != ".")
+        if (stringRolesFaltantes !== ".")
             stringExport += "Roles faltantes: " + stringRolesFaltantes + "\n";
         stringExport += "----------------------------------------------------------------------------------\n";
         contador++;

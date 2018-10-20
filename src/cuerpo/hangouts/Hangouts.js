@@ -50,12 +50,12 @@ class Hangouts extends React.Component {
             for(let key in this.state.Hangouts['conversation_state']) {
                 var conversation_state = this.state.Hangouts['conversation_state'][key];
                 var id = conversation_state['conversation_id']['id'];
-                var conversation = conversation_state['conversation_state']['conversation'];
+                conversation = conversation_state['conversation_state']['conversation'];
                 // Find participants
                 var participants = [], participants_obj = {};
                 for(let person_key in conversation['participant_data']){
-                    var person  = conversation['participant_data'][person_key];
-                    var gaia_id = person['id']['gaia_id'];
+                    person  = conversation['participant_data'][person_key];
+                    gaia_id = person['id']['gaia_id'];
                     var name = "Unknown";
                     if(person['fallback_name']){
                         name = person['fallback_name'];
@@ -84,10 +84,10 @@ class Hangouts extends React.Component {
                         // Get message
                         for(let msg_key in convo_event['chat_message']['message_content']['segment']){
                             var segment = convo_event['chat_message']['message_content']['segment'][msg_key];
-                            if(segment['type'] == 'LINE_BREAK') message += "\n";
+                            if(segment['type'] === 'LINE_BREAK') message += "\n";
                             if(!segment['text']) continue;
                             let e = twemoji.parse(segment['text']);
-                            if (e.indexOf('alt=') != -1){
+                            if (e.indexOf('alt=') !== -1){
                                 let auxEmoji = e.split("alt=\"");
                                 auxEmoji = auxEmoji[1].split("\"", 2);
                                 message += auxEmoji[0];
@@ -100,7 +100,7 @@ class Hangouts extends React.Component {
                         if(convo_event['chat_message']['message_content']['attachment']){
                             for(var attach_key in convo_event['chat_message']['message_content']['attachment']){
                                 var attachment = convo_event['chat_message']['message_content']['attachment'][attach_key];
-                                if(attachment['embed_item']['type'][0] == "PLUS_PHOTO"){
+                                if(attachment['embed_item']['type'][0] === "PLUS_PHOTO"){
                                     message += attachment['embed_item']['embeds.PlusPhoto.plus_photo']['thumbnail']['image_url']
                                     //message += "\n<a target='blank' href='" + attachment['embed_item']['embeds.PlusPhoto.plus_photo']['url'] + "'><img class='thumb' src='" + attachment['embed_item']['embeds.PlusPhoto.plus_photo']['thumbnail']['image_url'] + "' /></a>";
                                 }

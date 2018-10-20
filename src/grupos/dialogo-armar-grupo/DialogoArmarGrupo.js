@@ -62,7 +62,7 @@ class DialogoArmarGrupo extends React.Component {
                     </Select>
                   </DialogContent>
                   <DialogActions>
-                    <Button onClick={this.handleArmarGrupo} color="primary" disabled={this.state.tamanio == ''}>
+                    <Button onClick={this.handleArmarGrupo} color="primary" disabled={this.state.tamanio === ''}>
                       Armar grupos
                     </Button>
                     <Button onClick={this.handleClose} color="primary">
