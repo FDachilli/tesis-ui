@@ -1,0 +1,8 @@
+.div-style {
+    display: flex; 
+    flex-direction: row
+}
+
+.text-area-style {
+    margin-left: 10
+}

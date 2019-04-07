@@ -1,5 +1,8 @@
-.TarjetaRol {
-    width: 500px;
-    display:flex; 
-    flex-direction:row;
-  }
+.div-style {
+    display: flex; 
+    flex-direction: row
+}
+.label-style {
+    margin-right: 8px;
+    margin-bottom: 8px
+}

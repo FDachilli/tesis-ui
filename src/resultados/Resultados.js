@@ -1,11 +1,6 @@
 import React from 'react';
 import TarjetaRol from '../tarjeta-rol/TarjetaRol';
-
-const styleList = {
-  width: '400px',
-  maxHeight: '500px',
-  overflowY: 'auto'
-}
+import './Resultados.css';
 
 class Resultados extends React.Component {
 
@@ -31,7 +26,7 @@ class Resultados extends React.Component {
       return (
         <div style={{marginTop: '20px'}}>
           <h2>Resultados</h2>
-          <div style={styleList}>
+          <div className="style-list">
             { content }
           </div>
         </div>

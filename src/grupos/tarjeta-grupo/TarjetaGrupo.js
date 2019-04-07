@@ -1,35 +1,6 @@
 import React from 'react';
 import { Card, Divider} from '@material-ui/core';
-
-const divTopStyle = {
-    marginTop: '8px',
-    display: 'flex', 
-    flexDirection: 'row'
-}
-
-const divStyle = {
-    display: 'flex', 
-    flexDirection: 'row'
-}
-
-const labelStyle = {
-    marginRight: '8px',
-    marginBottom: '8px'
-}
-
-
-const labelRolesStyle = {
-    marginTop: '12px',
-    marginRight: '8px',
-    fontSize: '12px', 
-    color: 'red'
-}
-
-const textRolesStyle = {
-    fontSize: '12px', 
-    color: 'red'
-}
-
+import './TarjetaGrupo.css';
 
 class TarjetaGrupo extends React.Component {
    
@@ -60,15 +31,15 @@ class TarjetaGrupo extends React.Component {
         let integrantes = this.getIntegrantes(this.props.grupo.integrantes);
         let rolesFaltantes = this.getRolesFaltantes(this.props.grupo.rolesFaltantes);
         return (
-            <Card style={divStyle}>
+            <Card className="div-style">
                 <div>
-                    <div style={divTopStyle}>
-                        <label style={labelStyle}><strong>Integrantes: </strong></label>
+                    <div className="div-top-style">
+                        <label className="label-style"><strong>Integrantes: </strong></label>
                         {integrantes}
                     </div>
-                    {rolesFaltantes !== '.' && <div style={divStyle}>
-                        <label style={labelRolesStyle}><strong>Roles faltantes: </strong></label>
-                        <p style={textRolesStyle}>{rolesFaltantes}</p>
+                    {rolesFaltantes !== '.' && <div className="div-style">
+                        <label className="label-roles-style"><strong>Roles faltantes: </strong></label>
+                        <p className="text-roles-style">{rolesFaltantes}</p>
                     </div>}
                 </div>
                 <Divider/>

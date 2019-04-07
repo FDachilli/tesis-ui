@@ -6,14 +6,6 @@ import Divider from '@material-ui/core/Divider';
 import Paper from '@material-ui/core/Paper';
 import ListItemText from '@material-ui/core/ListItemText';
 
-const containerStyle = {
-      maxHeight: 500, 
-      width: 400, 
-      overflow: 'auto'
-};
-
-
-
 class ConversationsList extends React.Component { 
     constructor(props) {
         super(props);
@@ -37,8 +29,8 @@ class ConversationsList extends React.Component {
           </div>
         );
         return (
-          <Paper style={containerStyle}>
-            <List className="ConversationsList" component="nav">
+          <Paper className="container-style">
+            <List className="lista" component="nav">
               {listItems}
               <Divider />
             </List>

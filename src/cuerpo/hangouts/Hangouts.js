@@ -3,15 +3,6 @@ import './Hangouts.css';
 import twemoji from 'twemoji';
 import ConversationsList from './conversations-list/ConversationsList';
 
-const divStyle = {
-    display: 'flex', 
-    flexDirection: 'row',
-}
-
-const textAreaStyle = {
-    marginLeft: 10
-}
-
 class Hangouts extends React.Component {
 
     constructor(props) {
@@ -153,14 +144,13 @@ class Hangouts extends React.Component {
         }
 
         render() {
-            console.log("Volvio a renderizar hangouts")
             return (
                 <div>
-                  <div style={divStyle}>
+                  <div className="div-style">
                     <div>
                       {this.state.participantes.length > 0 && <ConversationsList list_conversations={this.state.participantes} onItemClick={this.switchConvo}></ConversationsList>}
                     </div>
-                    <div style={textAreaStyle}>
+                    <div className="text-area-style">
                                 <textarea value={this.state.text_conversation} readOnly="true" style={{
                                 width: '1000px',
                                 height: '100%',

@@ -12,6 +12,7 @@ import DialogoGrupos from '../grupos/Grupos';
 import exportResultados from '../common/Export';
 import Fade from '@material-ui/core/Fade';
 import ReactExport from "react-data-export";
+import './Cuerpo.css';
 
 const ExcelFile = ReactExport.ExcelFile;
 const ExcelSheet = ReactExport.ExcelFile.ExcelSheet;
@@ -25,49 +26,6 @@ const initialStyle = {
 
 const withHangoutStyle = {
   paddingLeft: '20px'
-}
-
-const textStyle = {
-  textAlign: 'center',
-  width: '70%'
-}
-
-const divSelectorStyle = {
-    display: 'flex', 
-    flexDirection: 'row',
-}
-
-const divContainerStyle = {
-  display: 'flex', 
-  flexDirection: 'row',
-}
-
-const divFiltrosStyle = {
-  display: 'flex', 
-  flexDirection: 'row',
-  width: '600px'
-}
-
-const hangoutsStyle = {
-  marginTop: '10px', 
-}
-
-const divButStyle ={
-  float: 'right', 
-  marginTop:'15px', 
-  marginRight: '100px', 
-  display: 'flex', 
-  flexDirection: 'row'
-}
-
-const divButExpStyle ={
-  marginTop: '20px',
-}
-
-const imgExpStyle = {
-  heigth: '25%',
-  width: '25%',
-  margin: 'auto'
 }
 
 class Cuerpo extends React.Component {
@@ -128,7 +86,6 @@ class Cuerpo extends React.Component {
       }
       fetch(url)
         .then((result)=>{
-          console.log (result)
           if (result.ok) {
             return result.text();
           } else {
@@ -289,7 +246,7 @@ class Cuerpo extends React.Component {
       if (this.state.hangouts == null) {
         styleCuerpo = initialStyle;
         cuerpo = 
-            <div style={textStyle}>
+            <div className="text-style">
               <h3>Como obtener el archivo Hangouts.json</h3>Visita <a href="https://www.google.com/settings/takeout" target="_blank" rel="noopener noreferrer"> Google Takeout</a>, clickear "No seleccionar ninguno" y luego solo seleccionar la opción de Hangouts.
                   Luego presione "Crear Archivo" con las opciones predefinidas, y luego de unos minutos recibirá un archivo zip con Hangouts.json dentro.
                   Extraer el archivo y seleccionarlo desde "Cargar archivo". Tenga en cuenta que si el historial del chat es de gran tamaño podría demorar unos minutos su carga.
@@ -298,8 +255,8 @@ class Cuerpo extends React.Component {
         styleCuerpo = withHangoutStyle;
         cuerpo = 
           <div> 
-            <div style={divContainerStyle}>
-                <div style={divFiltrosStyle}>
+            <div className="div-container-style">
+                <div className="div-filtros-style">
                   <Filtros onChangeClasificador= {this.handleClasificadorOnChange} 
                            onChangeClasificador2= {this.handleClasificador2OnChange} 
                            onChangeClasificador3= {this.handleClasificador3OnChange}
@@ -319,27 +276,27 @@ class Cuerpo extends React.Component {
                   </Fade>
                 </div>
                     {JSON.stringify(this.state.resultados) !== JSON.stringify({}) && 
-                    <div style={divSelectorStyle}>
+                    <div className="div-selector-style">
                       
                         <div style={{width: '440px'}}></div>
-                        <div style={divButExpStyle}>
+                        <div className="div-but-exp-style">
                           {Object.keys(this.state.resultados).length >= 3 && <Button onClick={() => this.handleOpenGrupoDialog()} style={{margin: 'auto',width: '150px',backgroundColor : 'rgb(189, 68, 50)', color: 'white'}}>
                                 Armar grupos
                           </Button>}
                           <ExcelFile filename="resultados" element={<Button variant="contained" style={{margin: 'auto',width: '100px',backgroundColor : '#2e7d32', color: 'white', marginLeft:'10px'}}>
                                                 Exportar
-                                              <img style={imgExpStyle} alt="excel" src={require('../resources/excel.png')}/>
+                                              <img className="img-exp-style" alt="excel" src={require('../resources/excel.png')}/>
                                               </Button>}>
                             <ExcelSheet dataSet={this.state.dataset} name="Resultados prediccion de roles"/>
                           </ExcelFile>
                           <Button onClick={() => this.exportToArff()} style={{margin: 'auto',width: '100px',backgroundColor : '#01579b', color: 'white', marginLeft:'10px'}}>
                                 Exportar
-                                <img style={imgExpStyle} alt="arff" src={require('../resources/arff.png')}/>
+                                <img className="img-exp-style" alt="arff" src={require('../resources/arff.png')}/>
                           </Button>
                     </div>
                 </div>}
               </div>
-              <Hangouts style={hangoutsStyle} 
+              <Hangouts className="hangouts-style" 
                         Hangouts={this.state.hangouts} 
                         conversaciones={this.state.hangoutsConversations}
                         onChangeConversations= {this.handleConversationsOnChange} 
@@ -377,7 +334,7 @@ class Cuerpo extends React.Component {
                                grupos={this.state.grupos}>
 
                 </DialogoGrupos>
-                <div style={divSelectorStyle}>
+                <div className="div-selector-style">
                       <SelectorArchivo onChange={this.handleSelectorOnChange}></SelectorArchivo>
                       <Fade
                         in={this.state.loadingFile}
@@ -391,7 +348,7 @@ class Cuerpo extends React.Component {
                       
                 </div>
                 {cuerpo}
-                <div style={divButStyle}>                  
+                <div className="div-but-style">                  
                     {this.state.hangoutsCurrentConversation != null && 
                      this.state.resultados[this.state.hangoutsCurrentConversation] == null &&
                         <Button style={{marginRight: '10px'}} color="primary" onClick={this.onClickProcesar} disabled={!enableButtons} >

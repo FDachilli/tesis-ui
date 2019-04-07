@@ -1,0 +1,42 @@
+.text-style {
+    text-align: center;
+    width: 70%
+  }
+  
+.div-selector-style{
+      display: flex; 
+      flex-direction: row;
+  }
+  
+.div-container-style {
+    display: flex; 
+    flex-direction: row;
+  }
+  
+.div-filtros-style{
+    display: flex; 
+    flex-direction: row;
+    width: 600px
+  }
+  
+.hangouts-style {
+    margin-top: 10px; 
+  }
+  
+.div-but-style {
+    float: right; 
+    margin-top:15px; 
+    margin-right: 100px; 
+    display: flex; 
+    flex-direction: row;
+  }
+  
+.div-but-exp-style{
+    margin-top: 20px;
+  }
+  
+.img-exp-style {
+    height: 25%;
+    width: 25%;
+    margin: auto
+}

@@ -27,12 +27,6 @@ const appBarStyle = {
    backgroundColor: "rgb(189, 68, 50)"
 };
 
-const logoStyle = {
-     widht: '50px', 
-     height: '50px', 
-     paddingRight: '10px'
-};
-
 const textStyle = {
     color: "#F5F5F5"
 }
@@ -45,7 +39,7 @@ class App extends Component {
           <div>
             <AppBar position="static" style={appBarStyle}>
               <Toolbar>
-                <img src={logo} alt="logo"  style={logoStyle}/>
+                <img src={logo} alt="logo" className="logo-style"/>
                 <Typography variant="title" style={textStyle}>
                   Inferencia de roles de usuario
                 </Typography>
